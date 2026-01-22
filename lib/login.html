@@ -1,220 +1,135 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KILLUA WEB | OFFICIAL</title>
+    <title>Login | Killua Wabot</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --dark-bg: #050505;
-            --panel-bg: #0f0f0f;
-            --text-main: #ffffff;
-            --text-dim: #999999;
+            --spotify-green: #1DB954;
+            --dark-base: #121212;
+            --text-gray: #b3b3b3;
+            --input-bg: #2a2a2a;
         }
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--dark-bg);
+            background-color: var(--dark-base);
             margin: 0;
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            color: var(--text-main);
-            padding-bottom: 60px;
-        }
-
-        /* --- MENÚ --- */
-        #menuToggle {
-            position: fixed;
-            top: 25px;
-            left: 25px;
-            z-index: 100;
-            cursor: pointer;
-            background: rgba(255, 255, 255, 0.03);
-            padding: 10px;
-            border-radius: 8px;
-        }
-
-        .sidebar {
-            position: fixed;
-            top: 0; left: -240px;
-            width: 220px; height: 100%;
-            background: #0a0a0a;
-            transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            z-index: 99;
-            padding: 30px 10px;
-        }
-
-        .sidebar.active { left: 0; }
-        .sidebar h2 { font-size: 0.9rem; text-align: center; margin-top: 50px; letter-spacing: 2px; text-transform: uppercase; }
-        .sidebar a { padding: 14px 20px; text-decoration: none; font-size: 0.85rem; color: var(--text-dim); display: flex; align-items: center; gap: 12px; transition: 0.3s; }
-        .sidebar a:hover { color: white; background: rgba(255,255,255,0.05); }
-
-        /* --- CONTENIDO --- */
-        .main-content {
-            margin-top: 80px;
-            width: 90%;
-            max-width: 380px;
-            text-align: center;
-        }
-
-        .hero-img-container {
-            position: relative;
-            width: 100%;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
-        }
-
-        .hero-img-container img { width: 100%; display: block; }
-
-        .badge-mini {
-            position: absolute;
-            bottom: 10px; left: 10px;
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(5px);
-            color: white;
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-size: 0.6rem;
-            text-decoration: none;
-        }
-
-        h1 { font-size: 1.2rem; letter-spacing: 6px; margin: 30px 0; font-weight: 200; }
-
-        /* --- PANEL DE INFORMACIÓN --- */
-        .info-panel {
-            background: var(--panel-bg);
-            border-radius: 24px;
-            padding: 10px;
-            border: 1px solid rgba(255,255,255,0.03);
-        }
-
-        .info-img {
-            width: 100%;
-            border-radius: 18px;
-            display: block;
-        }
-
-        /* Logos pegados a la imagen */
-        .action-bar {
-            display: flex;
             justify-content: center;
-            gap: 25px;
-            background: rgba(255,255,255,0.03);
-            margin: -20px auto 15px; /* Sube para pegarse a la imagen */
-            width: fit-content;
-            padding: 10px 25px;
-            border-radius: 50px;
-            backdrop-filter: blur(10px);
-            position: relative;
-            z-index: 5;
-            border: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .action-bar a {
+            align-items: center;
+            min-height: 100vh;
             color: white;
-            font-size: 1.2rem;
-            transition: 0.3s;
-            text-decoration: none;
-            opacity: 0.7;
         }
 
-        .action-bar a:hover { opacity: 1; transform: scale(1.1); }
-
-        .info-text {
-            padding: 0 15px 15px 15px;
+        .login-container {
+            width: 100%;
+            max-width: 450px;
+            background: linear-gradient(to bottom, #1f1f1f, #121212);
+            padding: 40px;
+            border-radius: 12px;
             text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
-        .info-title {
-            font-size: 0.95rem;
-            font-weight: bold;
-            display: block;
-            margin-bottom: 8px;
-            color: white;
+        .killua-logo {
+            width: 50px; height: 50px;
+            background: white; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            margin: 0 auto 20px;
+        }
+        .killua-logo i { color: black; font-size: 1.5rem; }
+
+        h1 { font-size: 1.8rem; margin-bottom: 30px; font-weight: 700; letter-spacing: -1px; }
+
+        .social-btn {
+            width: 100%; padding: 12px; margin-bottom: 12px;
+            border-radius: 50px; border: 1px solid var(--text-gray);
+            background: transparent; color: white; font-weight: 700;
+            display: flex; align-items: center; justify-content: center;
+            gap: 15px; cursor: pointer; transition: 0.2s;
         }
 
-        .info-body {
-            font-size: 0.8rem;
-            color: var(--text-dim);
-            line-height: 1.5;
+        .divider { height: 1px; background: #292929; margin: 30px 0; }
+
+        .form-group { text-align: left; margin-bottom: 20px; }
+        label { display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 8px; }
+        
+        input {
+            width: 100%; padding: 14px; border-radius: 4px;
+            border: 1px solid #727272; background: var(--input-bg);
+            color: white; box-sizing: border-box;
         }
 
-        /* --- FOOTER --- */
-        footer {
-            margin-top: 40px;
-            font-size: 0.65rem;
-            opacity: 0.3;
-            letter-spacing: 2px;
+        /* Remember me switch */
+        .remember-me {
+            display: flex; align-items: center; gap: 10px;
+            font-size: 0.85rem; margin: 20px 0; cursor: pointer;
         }
 
-        .overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8);
-            z-index: 98;
+        .main-btn {
+            width: 100%; padding: 14px; border-radius: 50px; border: none;
+            background-color: var(--spotify-green); color: black;
+            font-weight: 700; font-size: 1rem; cursor: pointer;
         }
+
+        .main-btn:hover { transform: scale(1.02); background: #1ed760; }
+
+        .toggle-text { margin-top: 25px; border-top: 1px solid #292929; padding-top: 20px; color: var(--text-gray); }
+        .toggle-text a { color: white; font-weight: 700; text-decoration: none; }
     </style>
 </head>
 <body>
 
-    <div id="menuToggle" onclick="toggleMenu()">
-        <i class="fas fa-bars"></i>
-    </div>
+    <div class="login-container">
+        <div class="killua-logo"><i class="fas fa-bolt"></i></div>
+        <h1 id="auth-title">Log in to Killua</h1>
 
-    <div class="sidebar" id="sidebar">
-        <h2>Killua Web</h2>
-        <a href="https://whatsapp.com/channel/0029VbBG4i2GE56rSgXsqw2W" target="_blank"><i class="fab fa-whatsapp"></i> Canal</a>
-        <a href="https://github.com/the-xyzz" target="_blank"><i class="fab fa-github"></i> GitHub</a>
-        <a href="mailto:thexyyzz@gmail.com"><i class="fas fa-envelope"></i> Gmail</a>
-        <a href="https://wa.me/5491156178758" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a>
-    </div>
+        <button class="social-btn"><i class="fab fa-google" style="color: #DB4437;"></i> Continue with Google</button>
+        <button class="social-btn"><i class="fab fa-github"></i> Continue with GitHub</button>
 
-    <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+        <div class="divider"></div>
 
-    <div class="main-content">
-        <div class="hero-img-container">
-            <img src="https://h.uguu.se/dlCzbisa.jpeg" alt="Killua">
-            <a href="https://whatsapp.com/channel/0029VbBG4i2GE56rSgXsqw2W" class="badge-mini" target="_blank">CANAL</a>
+        <div class="form-group">
+            <label>Email or username</label>
+            <input type="text" placeholder="Email or username">
         </div>
 
-        <h1>KILLUA WEB</h1>
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" placeholder="Password">
+        </div>
 
-        <div class="info-panel">
-            <img src="https://h.uguu.se/UthXSOvk.jpeg" class="info-img" alt="Killua Bot">
-            
-            <div class="action-bar">
-                <a href="https://whatsapp.com/channel/0029VbBG4i2GE56rSgXsqw2W" title="Canal" target="_blank">
-                    <i class="fab fa-whatsapp"></i>
-                </a>
-                <a href="https://github.com/the-xyzz" title="GitHub" target="_blank">
-                    <i class="fab fa-github"></i>
-                </a>
-            </div>
+        <div class="remember-me">
+            <input type="checkbox" id="rem" style="width: auto;">
+            <label for="rem" style="margin:0">Remember me</label>
+        </div>
 
-            <div class="info-text">
-                <span class="info-title">Killua Wabot Oficial</span>
-                <p class="info-body">
-                    Especializado en gestión dinámica de grupos y herramientas multimedia avanzadas. 
-                    Un bot creado para ofrecer velocidad y estabilidad en WhatsApp.
-                </p>
-            </div>
+        <button class="main-btn" onclick="handleAuth()" id="submit-btn">Log In</button>
+
+        <div class="toggle-text">
+            <span id="switch-msg">Don't have an account?</span> 
+            <a href="javascript:void(0)" onclick="toggleAuth()" id="switch-link">Sign up</a>
         </div>
     </div>
-
-    <footer>
-        © MADE BY THE-XYZZ
-    </footer>
 
     <script>
-        function toggleMenu() {
-            const sidebar = document.getElementById('sidebar');
-            const overlay = document.getElementById('overlay');
-            sidebar.classList.toggle('active');
-            overlay.style.display = sidebar.classList.contains('active') ? 'block' : 'none';
+        let isLogin = true;
+
+        function toggleAuth() {
+            isLogin = !isLogin;
+            document.getElementById('auth-title').innerText = isLogin ? "Log in to Killua" : "Sign up for Killua";
+            document.getElementById('submit-btn').innerText = isLogin ? "Log In" : "Sign Up";
+            document.getElementById('switch-msg').innerText = isLogin ? "Don't have an account?" : "Already have an account?";
+            document.getElementById('switch-link').innerText = isLogin ? "Sign up" : "Log in";
+        }
+
+        // Esta función simula el ingreso y te lleva al index.html (ruta /home)
+        function handleAuth() {
+            // Aquí podrías validar datos, por ahora solo redirige
+            window.location.href = "/home";
         }
     </script>
 </body>
