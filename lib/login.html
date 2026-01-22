@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KILLUA WEB | OFFICIAL</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --dark-bg: #050505;
+            --panel-bg: #0f0f0f;
+            --text-main: #ffffff;
+            --text-dim: #999999;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--dark-bg);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-main);
+            padding-bottom: 60px;
+        }
+
+        /* --- MENÚ --- */
+        #menuToggle {
+            position: fixed;
+            top: 25px;
+            left: 25px;
+            z-index: 100;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0; left: -240px;
+            width: 220px; height: 100%;
+            background: #0a0a0a;
+            transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 99;
+            padding: 30px 10px;
+        }
+
+        .sidebar.active { left: 0; }
+        .sidebar h2 { font-size: 0.9rem; text-align: center; margin-top: 50px; letter-spacing: 2px; text-transform: uppercase; }
+        .sidebar a { padding: 14px 20px; text-decoration: none; font-size: 0.85rem; color: var(--text-dim); display: flex; align-items: center; gap: 12px; transition: 0.3s; }
+        .sidebar a:hover { color: white; background: rgba(255,255,255,0.05); }
+
+        /* --- CONTENIDO --- */
+        .main-content {
+            margin-top: 80px;
+            width: 90%;
+            max-width: 380px;
+            text-align: center;
+        }
+
+        .hero-img-container {
+            position: relative;
+            width: 100%;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+        }
+
+        .hero-img-container img { width: 100%; display: block; }
+
+        .badge-mini {
+            position: absolute;
+            bottom: 10px; left: 10px;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(5px);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.6rem;
+            text-decoration: none;
+        }
+
+        h1 { font-size: 1.2rem; letter-spacing: 6px; margin: 30px 0; font-weight: 200; }
+
+        /* --- PANEL DE INFORMACIÓN --- */
+        .info-panel {
+            background: var(--panel-bg);
+            border-radius: 24px;
+            padding: 10px;
+            border: 1px solid rgba(255,255,255,0.03);
+        }
+
+        .info-img {
+            width: 100%;
+            border-radius: 18px;
+            display: block;
+        }
+
+        /* Logos pegados a la imagen */
+        .action-bar {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            background: rgba(255,255,255,0.03);
+            margin: -20px auto 15px; /* Sube para pegarse a la imagen */
+            width: fit-content;
+            padding: 10px 25px;
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+            position: relative;
+            z-index: 5;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .action-bar a {
+            color: white;
+            font-size: 1.2rem;
+            transition: 0.3s;
+            text-decoration: none;
+            opacity: 0.7;
+        }
+
+        .action-bar a:hover { opacity: 1; transform: scale(1.1); }
+
+        .info-text {
+            padding: 0 15px 15px 15px;
+            text-align: center;
+        }
+
+        .info-title {
+            font-size: 0.95rem;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 8px;
+            color: white;
+        }
+
+        .info-body {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            line-height: 1.5;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            margin-top: 40px;
+            font-size: 0.65rem;
+            opacity: 0.3;
+            letter-spacing: 2px;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 98;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="menuToggle" onclick="toggleMenu()">
+        <i class="fas fa-bars"></i>
+    </div>
+
+    <div class="sidebar" id="sidebar">
+        <h2>Killua Web</h2>
+        <a href="https://whatsapp.com/channel/0029VbBG4i2GE56rSgXsqw2W" target="_blank"><i class="fab fa-whatsapp"></i> Canal</a>
+        <a href="https://github.com/the-xyzz" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+        <a href="mailto:thexyyzz@gmail.com"><i class="fas fa-envelope"></i> Gmail</a>
+        <a href="https://wa.me/5491156178758" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+    </div>
+
+    <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+
+    <div class="main-content">
+        <div class="hero-img-container">
+            <img src="https://h.uguu.se/dlCzbisa.jpeg" alt="Killua">
+            <a href="https://whatsapp.com/channel/0029VbBG4i2GE56rSgXsqw2W" class="badge-mini" target="_blank">CANAL</a>
+        </div>
+
+        <h1>KILLUA WEB</h1>
+
+        <div class="info-panel">
+            <img src="https://h.uguu.se/UthXSOvk.jpeg" class="info-img" alt="Killua Bot">
+            
+            <div class="action-bar">
+                <a href="https://whatsapp.com/channel/0029VbBG4i2GE56rSgXsqw2W" title="Canal" target="_blank">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+                <a href="https://github.com/the-xyzz" title="GitHub" target="_blank">
+                    <i class="fab fa-github"></i>
+                </a>
+            </div>
+
+            <div class="info-text">
+                <span class="info-title">Killua Wabot Oficial</span>
+                <p class="info-body">
+                    Especializado en gestión dinámica de grupos y herramientas multimedia avanzadas. 
+                    Un bot creado para ofrecer velocidad y estabilidad en WhatsApp.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        © MADE BY THE-XYZZ
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+            sidebar.classList.toggle('active');
+            overlay.style.display = sidebar.classList.contains('active') ? 'block' : 'none';
+        }
+    </script>
+</body>
+</html>
