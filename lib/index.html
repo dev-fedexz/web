@@ -7,167 +7,143 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --neon-purple: #a855f7;
-            --neon-blue: #22d3ee;
-            --dark-bg: #0a0a0c;
+            --neon-purple: #9d4edd;
+            --dark-bg: #050505;
         }
 
         body {
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            font-family: 'Inter', sans-serif;
             background-color: var(--dark-bg);
-            background-image: radial-gradient(circle at 50% 50%, #1a1033 0%, #0a0a0c 100%);
             margin: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
             color: white;
-            overflow-x: hidden;
+            overflow: hidden; /* Evita scroll innecesario */
         }
 
-        /* --- MENÚ LATERAL --- */
+        /* --- MENÚ LATERAL PEQUEÑO --- */
         #menuToggle {
             position: fixed;
             top: 20px;
             left: 20px;
             z-index: 100;
             cursor: pointer;
-            background: rgba(168, 85, 247, 0.2);
-            padding: 10px;
-            border-radius: 8px;
+            background: rgba(157, 78, 221, 0.15);
+            padding: 12px;
+            border-radius: 50%;
             border: 1px solid var(--neon-purple);
+            transition: 0.3s;
         }
 
         .sidebar {
             position: fixed;
             top: 0;
-            left: -280px;
-            width: 250px;
+            left: -220px; /* Más estrecho */
+            width: 200px;
             height: 100%;
-            background: rgba(10, 10, 12, 0.95);
-            backdrop-filter: blur(10px);
-            transition: 0.4s;
+            background: rgba(10, 10, 10, 0.98);
+            backdrop-filter: blur(15px);
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 99;
-            padding-top: 80px;
+            padding: 20px;
             border-right: 1px solid var(--neon-purple);
         }
 
         .sidebar.active { left: 0; }
 
-        .sidebar a {
-            padding: 15px 25px;
-            text-decoration: none;
+        .sidebar h2 {
             font-size: 1.1rem;
-            color: white;
+            color: var(--neon-purple);
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 15px;
+            margin-top: 60px;
+            letter-spacing: 1px;
+        }
+
+        .sidebar a {
+            padding: 12px 15px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            color: #ccc;
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
             transition: 0.3s;
+            border-radius: 8px;
+            margin-top: 10px;
         }
 
         .sidebar a:hover {
-            background: rgba(168, 85, 247, 0.1);
-            color: var(--neon-blue);
+            background: rgba(157, 78, 221, 0.1);
+            color: white;
+            transform: translateX(5px);
         }
 
-        /* --- CONTENIDO PRINCIPAL --- */
+        /* --- CONTENIDO CENTRAL --- */
         .main-content {
-            width: 100%;
-            max-width: 400px;
-            padding-top: 40px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .header-box {
-            position: relative;
+            margin-top: 80px;
             width: 90%;
-            border-radius: 20px;
-            overflow: hidden;
-            border: 2px solid var(--neon-purple);
-            box-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
+            max-width: 350px;
+            text-align: center;
         }
 
-        .header-box img {
+        .image-container {
+            position: relative;
+            width: 100%;
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid rgba(157, 78, 221, 0.5);
+            box-shadow: 0 0 30px rgba(157, 78, 221, 0.2);
+        }
+
+        .image-container img {
             width: 100%;
             display: block;
         }
 
-        .channel-overlay {
+        /* Badge Canal chiquito en la esquina de la imagen */
+        .img-badge {
             position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(transparent, rgba(0,0,0,0.8));
-            padding: 15px;
+            bottom: 8px;
+            left: 8px;
+            background: rgba(37, 211, 102, 0.85);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-size: 0.65rem;
+            font-weight: bold;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-        }
-
-        .btn-canal {
-            background: #25D366;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 0.8rem;
-            box-shadow: 0 0 10px rgba(37, 211, 102, 0.5);
+            gap: 4px;
+            backdrop-filter: blur(5px);
         }
 
         h1 {
-            margin: 25px 0;
-            font-size: 1.6rem;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            text-shadow: 0 0 10px var(--neon-blue);
-        }
-
-        /* --- LISTA DE CONTACTOS --- */
-        .links-container {
-            width: 90%;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-bottom: 50px;
-        }
-
-        .card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 15px 20px;
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-            color: white;
-            transition: 0.3s;
-        }
-
-        .card:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: scale(1.02);
-            border-color: var(--neon-blue);
-        }
-
-        .card i {
             font-size: 1.5rem;
-            margin-right: 20px;
-            width: 25px;
-            text-align: center;
+            margin: 30px 0;
+            letter-spacing: 4px;
+            font-weight: 300;
+            color: #eee;
         }
 
-        .ic-github { color: #fff; }
-        .ic-wa { color: #25D366; }
-        .ic-mail { color: #ea4335; }
+        /* --- FOOTER --- */
+        footer {
+            position: absolute;
+            bottom: 20px;
+            font-size: 0.75rem;
+            opacity: 0.5;
+            letter-spacing: 1px;
+        }
 
-        .overlay-screen {
+        .overlay {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.6);
             z-index: 98;
         }
     </style>
@@ -179,62 +155,45 @@
     </div>
 
     <div class="sidebar" id="sidebar">
+        <h2>Killua Web</h2>
         <a href="https://whatsapp.com/channel/0029VbBG4i2GE56rSgXsqw2W" target="_blank">
             <i class="fab fa-whatsapp" style="color: #25D366;"></i> Canal Oficial
         </a>
         <a href="mailto:thexyyzz@gmail.com">
             <i class="fas fa-envelope" style="color: #ea4335;"></i> Gmail
         </a>
+        <a href="https://github.com/the-xyzz" target="_blank">
+            <i class="fab fa-github"></i> GitHub
+        </a>
+        <a href="https://wa.me/5491156178758" target="_blank">
+            <i class="fab fa-whatsapp"></i> WhatsApp Personal
+        </a>
     </div>
 
-    <div class="overlay-screen" id="overlay" onclick="toggleMenu()"></div>
+    <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
 
     <div class="main-content">
-        <div class="header-box">
+        <div class="image-container">
             <img src="https://h.uguu.se/dlCzbisa.jpeg" alt="Killua">
-            <div class="channel-overlay">
-                <span style="font-weight: bold; font-size: 0.9rem;">OFICIAL PAGE</span>
-                <a href="https://whatsapp.com/channel/0029VbBG4i2GE56rSgXsqw2W" class="btn-canal" target="_blank">
-                    CANAL WHATSAPP
-                </a>
-            </div>
+            <a href="https://whatsapp.com/channel/0029VbBG4i2GE56rSgXsqw2W" class="img-badge" target="_blank">
+                <i class="fab fa-whatsapp"></i> Canal
+            </a>
         </div>
 
         <h1>KILLUA WEB</h1>
-
-        <div class="links-container">
-            <a href="https://github.com/the-xyzz" class="card" target="_blank">
-                <i class="fab fa-github ic-github"></i>
-                <div>
-                    <div style="font-weight: bold;">GitHub</div>
-                    <div style="font-size: 0.7rem; opacity: 0.6;">Ver mis proyectos</div>
-                </div>
-            </a>
-
-            <a href="https://wa.me/5491156178758" class="card" target="_blank">
-                <i class="fab fa-whatsapp ic-wa"></i>
-                <div>
-                    <div style="font-weight: bold;">WhatsApp</div>
-                    <div style="font-size: 0.7rem; opacity: 0.6;">Chat directo</div>
-                </div>
-            </a>
-
-            <a href="mailto:thexyyzz@gmail.com" class="card">
-                <i class="fas fa-envelope ic-mail"></i>
-                <div>
-                    <div style="font-weight: bold;">Gmail</div>
-                    <div style="font-size: 0.7rem; opacity: 0.6;">Enviar correo</div>
-                </div>
-            </a>
-        </div>
     </div>
+
+    <footer>
+        © Made by the-xyzz
+    </footer>
 
     <script>
         function toggleMenu() {
-            document.getElementById('sidebar').classList.toggle('active');
+            const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('overlay');
-            overlay.style.display = overlay.style.display === 'block' ? 'none' : 'block';
+            sidebar.classList.toggle('active');
+            overlay.style.display = sidebar.classList.contains('active') ? 'block' : 'none';
         }
     </script>
 </body>
-</html>
+            </html>
