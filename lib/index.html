@@ -7,8 +7,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --accent-color: #ffffff;
-            --dark-bg: #0a0a0a;
+            --dark-bg: #080808;
+            --card-bg: #121212;
+            --accent: #25D366;
         }
 
         body {
@@ -18,57 +19,43 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            min-height: 100vh;
             color: white;
-            overflow: hidden;
+            padding-bottom: 100px; /* Espacio para el footer */
         }
 
-        /* --- BOTÓN MENÚ LIMPIO --- */
+        /* --- MENÚ LATERAL --- */
         #menuToggle {
             position: fixed;
             top: 25px;
             left: 25px;
             z-index: 100;
             cursor: pointer;
-            font-size: 1.2rem;
-            color: white;
             background: rgba(255, 255, 255, 0.05);
             padding: 10px;
             border-radius: 10px;
-            transition: 0.3s;
         }
 
-        #menuToggle:hover {
-            background: rgba(255, 255, 255, 0.15);
-        }
-
-        /* --- SIDEBAR SIN LÍNEAS FEAS --- */
         .sidebar {
             position: fixed;
             top: 0;
             left: -240px;
             width: 220px;
             height: 100%;
-            background: #111111;
+            background: #0f0f0f;
             transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             z-index: 99;
             padding: 30px 10px;
             box-shadow: 10px 0 30px rgba(0,0,0,0.5);
         }
 
-        .sidebar.active {
-            left: 0;
-        }
+        .sidebar.active { left: 0; }
 
         .sidebar h2 {
             font-size: 1rem;
             text-align: center;
             margin-top: 50px;
-            margin-bottom: 30px;
             letter-spacing: 2px;
-            color: white;
             text-transform: uppercase;
-            opacity: 0.9;
         }
 
         .sidebar a {
@@ -80,71 +67,110 @@
             align-items: center;
             gap: 12px;
             transition: 0.3s;
-            border-radius: 12px;
         }
 
-        .sidebar a:hover {
-            color: white;
-            background: rgba(255, 255, 255, 0.05);
-            transform: translateX(5px);
-        }
+        .sidebar a:hover { color: white; background: rgba(255,255,255,0.05); }
 
         /* --- CONTENIDO PRINCIPAL --- */
         .main-content {
-            margin-top: 100px;
+            margin-top: 80px;
             width: 90%;
-            max-width: 350px;
+            max-width: 400px;
             text-align: center;
         }
 
-        .image-container {
-            position: relative;
+        .hero-image {
             width: 100%;
             border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            position: relative;
             overflow: hidden;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
 
-        .image-container img {
-            width: 100%;
-            display: block;
-        }
+        .hero-image img { width: 100%; display: block; }
 
-        /* Badge Canal chiquito */
         .img-badge {
             position: absolute;
-            bottom: 12px;
-            left: 12px;
+            bottom: 10px;
+            left: 10px;
             background: rgba(37, 211, 102, 0.9);
             color: white;
-            padding: 5px 12px;
+            padding: 4px 10px;
             border-radius: 8px;
-            text-decoration: none;
             font-size: 0.6rem;
             font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            letter-spacing: 0.5px;
+            text-decoration: none;
         }
 
         h1 {
-            font-size: 1.2rem;
-            margin-top: 40px;
-            letter-spacing: 6px;
-            font-weight: 200;
-            color: #fff;
-            opacity: 0.8;
+            font-size: 1.4rem;
+            letter-spacing: 5px;
+            margin: 30px 0;
+            font-weight: 300;
         }
+
+        /* --- PANEL DE INFORMACIÓN --- */
+        .info-panel {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 20px;
+            text-align: left;
+            border: 1px solid rgba(255,255,255,0.05);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .info-panel img {
+            width: 100%;
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+
+        .info-header {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            display: block;
+            color: #fff;
+        }
+
+        .info-desc {
+            font-size: 0.85rem;
+            color: #aaa;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .info-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .info-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.85rem;
+            transition: 0.3s;
+        }
+
+        .btn-wa { background: #25D366; color: white; }
+        .btn-git { background: #333; color: white; }
+        .info-btn:hover { opacity: 0.8; transform: translateY(-2px); }
 
         /* --- FOOTER --- */
         footer {
-            position: absolute;
-            bottom: 30px;
+            margin-top: 50px;
+            padding-bottom: 30px;
             font-size: 0.7rem;
             opacity: 0.4;
             letter-spacing: 2px;
-            text-transform: uppercase;
         }
 
         .overlay {
@@ -165,35 +191,38 @@
 
     <div class="sidebar" id="sidebar">
         <h2>Killua Web</h2>
-        
-        <a href="https://whatsapp.com/channel/0029VbBG4i2GE56rSgXsqw2W" target="_blank">
-            <i class="fab fa-whatsapp" style="color: #25D366;"></i> Canal Oficial
-        </a>
-        
-        <a href="https://github.com/the-xyzz" target="_blank">
-            <i class="fab fa-github" style="color: #fff;"></i> GitHub
-        </a>
-        
-        <a href="https://wa.me/5491156178758" target="_blank">
-            <i class="fab fa-whatsapp" style="color: #25D366;"></i> WhatsApp
-        </a>
-
-        <a href="mailto:thexyyzz@gmail.com">
-            <i class="fas fa-envelope" style="color: #ea4335;"></i> Gmail
-        </a>
+        <a href="https://whatsapp.com/channel/0029VbBG4i2GE56rSgXsqw2W" target="_blank"><i class="fab fa-whatsapp"></i> Canal</a>
+        <a href="https://github.com/the-xyzz" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+        <a href="mailto:thexyyzz@gmail.com"><i class="fas fa-envelope"></i> Gmail</a>
     </div>
 
     <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
 
     <div class="main-content">
-        <div class="image-container">
+        <div class="hero-image">
             <img src="https://h.uguu.se/dlCzbisa.jpeg" alt="Killua">
-            <a href="https://whatsapp.com/channel/0029VbBG4i2GE56rSgXsqw2W" class="img-badge" target="_blank">
-                <i class="fab fa-whatsapp"></i> CANAL
-            </a>
+            <a href="https://whatsapp.com/channel/0029VbBG4i2GE56rSgXsqw2W" class="img-badge" target="_blank">CANAL</a>
         </div>
 
         <h1>KILLUA WEB</h1>
+
+        <div class="info-panel">
+            <img src="https://h.uguu.se/UthXSOvk.jpeg" alt="Info Bot">
+            <span class="info-header">Información de Killua Wabot</span>
+            <span class="info-desc">
+                Killua Wabot es una herramienta multifuncional diseñada para optimizar grupos de WhatsApp, 
+                ofreciendo comandos de administración, juegos y descargas multimedia.
+            </span>
+            
+            <div class="info-links">
+                <a href="https://whatsapp.com/channel/0029VbBG4i2GE56rSgXsqw2W" class="info-btn btn-wa" target="_blank">
+                    <i class="fab fa-whatsapp"></i> Canal del Bot
+                </a>
+                <a href="https://github.com/the-xyzz" class="info-btn btn-git" target="_blank">
+                    <i class="fab fa-github"></i> Repositorio GitHub
+                </a>
+            </div>
+        </div>
     </div>
 
     <footer>
@@ -209,4 +238,4 @@
         }
     </script>
 </body>
-    </html>
+                </html>
