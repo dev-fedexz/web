@@ -7,8 +7,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --neon-purple: #9d4edd;
-            --dark-bg: #050505;
+            --accent-color: #ffffff;
+            --dark-bg: #0a0a0a;
         }
 
         body {
@@ -20,71 +20,78 @@
             align-items: center;
             min-height: 100vh;
             color: white;
-            overflow: hidden; /* Evita scroll innecesario */
+            overflow: hidden;
         }
 
-        /* --- MENÚ LATERAL PEQUEÑO --- */
+        /* --- BOTÓN MENÚ LIMPIO --- */
         #menuToggle {
             position: fixed;
-            top: 20px;
-            left: 20px;
+            top: 25px;
+            left: 25px;
             z-index: 100;
             cursor: pointer;
-            background: rgba(157, 78, 221, 0.15);
-            padding: 12px;
-            border-radius: 50%;
-            border: 1px solid var(--neon-purple);
+            font-size: 1.2rem;
+            color: white;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 10px;
+            border-radius: 10px;
             transition: 0.3s;
         }
 
+        #menuToggle:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        /* --- SIDEBAR SIN LÍNEAS FEAS --- */
         .sidebar {
             position: fixed;
             top: 0;
-            left: -220px; /* Más estrecho */
-            width: 200px;
+            left: -240px;
+            width: 220px;
             height: 100%;
-            background: rgba(10, 10, 10, 0.98);
-            backdrop-filter: blur(15px);
-            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: #111111;
+            transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             z-index: 99;
-            padding: 20px;
-            border-right: 1px solid var(--neon-purple);
+            padding: 30px 10px;
+            box-shadow: 10px 0 30px rgba(0,0,0,0.5);
         }
 
-        .sidebar.active { left: 0; }
+        .sidebar.active {
+            left: 0;
+        }
 
         .sidebar h2 {
-            font-size: 1.1rem;
-            color: var(--neon-purple);
+            font-size: 1rem;
             text-align: center;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            padding-bottom: 15px;
-            margin-top: 60px;
-            letter-spacing: 1px;
+            margin-top: 50px;
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+            color: white;
+            text-transform: uppercase;
+            opacity: 0.9;
         }
 
         .sidebar a {
-            padding: 12px 15px;
+            padding: 14px 20px;
             text-decoration: none;
             font-size: 0.9rem;
-            color: #ccc;
+            color: #888;
             display: flex;
             align-items: center;
             gap: 12px;
             transition: 0.3s;
-            border-radius: 8px;
-            margin-top: 10px;
+            border-radius: 12px;
         }
 
         .sidebar a:hover {
-            background: rgba(157, 78, 221, 0.1);
             color: white;
+            background: rgba(255, 255, 255, 0.05);
             transform: translateX(5px);
         }
 
-        /* --- CONTENIDO CENTRAL --- */
+        /* --- CONTENIDO PRINCIPAL --- */
         .main-content {
-            margin-top: 80px;
+            margin-top: 100px;
             width: 90%;
             max-width: 350px;
             text-align: center;
@@ -93,10 +100,9 @@
         .image-container {
             position: relative;
             width: 100%;
-            border-radius: 15px;
+            border-radius: 20px;
             overflow: hidden;
-            border: 1px solid rgba(157, 78, 221, 0.5);
-            box-shadow: 0 0 30px rgba(157, 78, 221, 0.2);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
 
         .image-container img {
@@ -104,47 +110,50 @@
             display: block;
         }
 
-        /* Badge Canal chiquito en la esquina de la imagen */
+        /* Badge Canal chiquito */
         .img-badge {
             position: absolute;
-            bottom: 8px;
-            left: 8px;
-            background: rgba(37, 211, 102, 0.85);
+            bottom: 12px;
+            left: 12px;
+            background: rgba(37, 211, 102, 0.9);
             color: white;
-            padding: 4px 10px;
-            border-radius: 12px;
+            padding: 5px 12px;
+            border-radius: 8px;
             text-decoration: none;
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             font-weight: bold;
             display: flex;
             align-items: center;
-            gap: 4px;
-            backdrop-filter: blur(5px);
+            gap: 5px;
+            letter-spacing: 0.5px;
         }
 
         h1 {
-            font-size: 1.5rem;
-            margin: 30px 0;
-            letter-spacing: 4px;
-            font-weight: 300;
-            color: #eee;
+            font-size: 1.2rem;
+            margin-top: 40px;
+            letter-spacing: 6px;
+            font-weight: 200;
+            color: #fff;
+            opacity: 0.8;
         }
 
         /* --- FOOTER --- */
         footer {
             position: absolute;
-            bottom: 20px;
-            font-size: 0.75rem;
-            opacity: 0.5;
-            letter-spacing: 1px;
+            bottom: 30px;
+            font-size: 0.7rem;
+            opacity: 0.4;
+            letter-spacing: 2px;
+            text-transform: uppercase;
         }
 
         .overlay {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6);
+            background: rgba(0,0,0,0.7);
             z-index: 98;
+            backdrop-filter: blur(4px);
         }
     </style>
 </head>
@@ -156,17 +165,21 @@
 
     <div class="sidebar" id="sidebar">
         <h2>Killua Web</h2>
+        
         <a href="https://whatsapp.com/channel/0029VbBG4i2GE56rSgXsqw2W" target="_blank">
             <i class="fab fa-whatsapp" style="color: #25D366;"></i> Canal Oficial
         </a>
+        
+        <a href="https://github.com/the-xyzz" target="_blank">
+            <i class="fab fa-github" style="color: #fff;"></i> GitHub
+        </a>
+        
+        <a href="https://wa.me/5491156178758" target="_blank">
+            <i class="fab fa-whatsapp" style="color: #25D366;"></i> WhatsApp
+        </a>
+
         <a href="mailto:thexyyzz@gmail.com">
             <i class="fas fa-envelope" style="color: #ea4335;"></i> Gmail
-        </a>
-        <a href="https://github.com/the-xyzz" target="_blank">
-            <i class="fab fa-github"></i> GitHub
-        </a>
-        <a href="https://wa.me/5491156178758" target="_blank">
-            <i class="fab fa-whatsapp"></i> WhatsApp Personal
         </a>
     </div>
 
@@ -176,7 +189,7 @@
         <div class="image-container">
             <img src="https://h.uguu.se/dlCzbisa.jpeg" alt="Killua">
             <a href="https://whatsapp.com/channel/0029VbBG4i2GE56rSgXsqw2W" class="img-badge" target="_blank">
-                <i class="fab fa-whatsapp"></i> Canal
+                <i class="fab fa-whatsapp"></i> CANAL
             </a>
         </div>
 
@@ -196,4 +209,4 @@
         }
     </script>
 </body>
-            </html>
+    </html>
