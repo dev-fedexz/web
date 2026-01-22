@@ -4,7 +4,7 @@ const app = express();
 
 app.use(express.static(path.join(__dirname, 'lib')));
 
-app.get('/', (req, res) => {
+app.get('/login', (req, res) => {
   res.sendFile(path.join(__dirname, 'lib', 'login.html'));
 });
 
