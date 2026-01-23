@@ -5,8 +5,8 @@ const fs = require('fs');
 const os = require('os');
 const app = express();
 
-const uploadDir = path.join(os.tmpdir(), 'uploads');
 
+const uploadDir = path.join(os.tmpdir(), 'uploads');
 if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true });
 }
@@ -16,9 +16,10 @@ const storage = multer.diskStorage({
     cb(null, uploadDir);
   },
   filename: (req, file, cb) => {
-    const uniqueId = Math.random().toString(36).substring(2, 12);
+    
+    const timestampId = Date.now(); 
     const finalExt = file.mimetype.startsWith('image/') ? '.jpeg' : '.mp4';
-    cb(null, uniqueId + finalExt);
+    cb(null, `${timestampId}${finalExt}`);
   }
 });
 
@@ -31,13 +32,14 @@ app.get('/uploads/:filename', (req, res) => {
     if (fs.existsSync(filePath)) {
         res.sendFile(filePath);
     } else {
-        res.status(404).send('File not found');
+        res.status(404).send('Not Found');
     }
 });
 
 app.post('/upload-file', upload.single('file'), (req, res) => {
   if (!req.file) return res.status(400).send('No file.');
   
+
   const fileUrl = `https://${req.get('host')}/uploads/${req.file.filename}`;
   res.json({ url: fileUrl });
 });
