@@ -11,7 +11,7 @@
             --dark-bg: #050505;
             --panel-bg: rgba(20, 20, 20, 0.6);
             --text-dim: #b3b3b3;
-            --accent: #1DB954; /* Spotify Green */
+            --accent: #1DB954; 
             --glass: rgba(255, 255, 255, 0.03);
             --border: rgba(255, 255, 255, 0.08);
         }
@@ -19,7 +19,7 @@
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: var(--dark-bg);
-            background-image: radial-gradient(circle at top right, rgba(29, 185, 84, 0.05), transparent),
+            background-image: radial-gradient(circle at top right, rgba(29, 185, 84, 0.08), transparent),
                               radial-gradient(circle at bottom left, rgba(255, 255, 255, 0.02), transparent);
             margin: 0;
             display: flex;
@@ -44,7 +44,6 @@
             border: 1px solid var(--border);
             transition: 0.3s;
         }
-        #menuToggle:hover { background: rgba(255,255,255,0.1); transform: scale(1.05); }
 
         .sidebar {
             position: fixed;
@@ -60,7 +59,6 @@
             border-right: 1px solid var(--border);
         }
         .sidebar.active { left: 0; }
-        .sidebar h2 { font-size: 0.7rem; letter-spacing: 4px; color: var(--text-dim); text-align: center; margin-bottom: 40px; }
         .sidebar a {
             padding: 15px 20px;
             text-decoration: none;
@@ -71,9 +69,8 @@
             gap: 15px;
             border-radius: 12px;
             transition: 0.3s;
-            margin-bottom: 5px;
         }
-        .sidebar a:hover { background: var(--glass); color: white; transform: translateX(5px); }
+        .sidebar a:hover { background: var(--glass); color: white; }
 
         /* Contenido */
         .main-content { margin-top: 100px; width: 90%; max-width: 400px; text-align: center; }
@@ -84,12 +81,12 @@
             overflow: hidden;
             position: relative;
             box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            transition: 0.5s;
+            background: #111; /* Color de carga */
+            min-height: 200px;
         }
-        .hero-img:hover { transform: translateY(-5px); }
-        .hero-img img { width: 100%; display: block; }
+        .hero-img img { width: 100%; display: block; object-fit: cover; }
 
-        h1 { font-size: 1.4rem; letter-spacing: 8px; margin: 40px 0; font-weight: 200; color: white; text-transform: uppercase; }
+        h1 { font-size: 1.4rem; letter-spacing: 8px; margin: 40px 0; font-weight: 200; text-transform: uppercase; }
 
         .info-panel, .upload-panel {
             background: var(--panel-bg);
@@ -98,10 +95,9 @@
             padding: 20px;
             border: 1px solid var(--border);
             margin-bottom: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
 
-        .info-img { width: 100%; border-radius: 20px; display: block; filter: grayscale(20%); }
+        .info-img { width: 100%; border-radius: 20px; display: block; background: #111; }
         
         .action-bar {
             display: flex;
@@ -117,12 +113,8 @@
             border: 1px solid var(--border);
             backdrop-filter: blur(15px);
         }
-        .action-bar a { color: white; font-size: 1.3rem; text-decoration: none; transition: 0.3s; opacity: 0.8; }
-        .action-bar a:hover { opacity: 1; transform: translateY(-2px); color: var(--accent); }
+        .action-bar a { color: white; font-size: 1.3rem; opacity: 0.8; }
 
-        /* Estilos del Subidor Mejorados */
-        .upload-title { font-size: 1rem; font-weight: bold; margin-bottom: 20px; display: block; letter-spacing: 1px; }
-        
         .drop-zone {
             border: 2px dashed rgba(255,255,255,0.1);
             padding: 40px 20px;
@@ -131,10 +123,8 @@
             color: var(--text-dim);
             transition: 0.3s;
             display: block;
-            background: rgba(255,255,255,0.01);
         }
-        .drop-zone:hover { border-color: var(--accent); background: rgba(29, 185, 84, 0.05); color: white; }
-        .drop-zone i { font-size: 2rem; margin-bottom: 10px; color: var(--accent); }
+        .drop-zone:hover { border-color: var(--accent); color: white; }
         
         #file-input { display: none; }
 
@@ -146,65 +136,45 @@
             padding: 16px;
             border-radius: 50px;
             font-weight: 800;
-            font-size: 0.9rem;
-            margin-top: 20px;
             cursor: pointer;
             transition: 0.3s;
             text-transform: uppercase;
-            letter-spacing: 1px;
         }
-        .btn-up:hover { transform: scale(1.02); background: var(--accent); color: white; }
-        .btn-up:active { transform: scale(0.98); }
+        .btn-up:hover { background: var(--accent); color: white; }
 
         #result {
             margin-top: 20px;
             font-size: 0.8rem;
-            word-break: break-all;
             display: none;
             background: rgba(29, 185, 84, 0.1);
             padding: 15px;
             border-radius: 15px;
             border: 1px solid rgba(29, 185, 84, 0.2);
-            animation: fadeIn 0.5s ease;
         }
         #result a { color: var(--accent); text-decoration: none; font-weight: bold; }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        footer { margin-top: 50px; font-size: 0.6rem; opacity: 0.4; letter-spacing: 3px; font-weight: bold; }
-        
-        .overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.7);
-            backdrop-filter: blur(4px);
-            z-index: 98;
-        }
+        footer { margin-top: 50px; font-size: 0.6rem; opacity: 0.4; letter-spacing: 3px; }
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 98; }
     </style>
 </head>
 <body>
     <div id="menuToggle" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
     <div class="sidebar" id="sidebar">
-        <h2>KILLUA MENU</h2>
+        <h2 style="font-size: 0.7rem; color:grey; text-align:center;">KILLUA MENU</h2>
         <a href="https://whatsapp.com/channel/0029VbBG4i2GE56rSgXsqw2W" target="_blank"><i class="fab fa-whatsapp"></i> Channel</a>
         <a href="https://github.com/the-xyzz" target="_blank"><i class="fab fa-github"></i> GitHub</a>
-        <a href="https://wa.me/5491156178758" target="_blank"><i class="fas fa-code"></i> Developer</a>
     </div>
     <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
 
     <div class="main-content">
         <div class="hero-img">
-            <img src="https://thexyzz.vercel.app/uploads/1769177485060.jpeg" alt="Killua Hero">
+            <img src="https://h.uguu.se/dlCzbisa.jpeg" alt="Killua Hero">
         </div>
         
         <h1>Killua Web</h1>
 
         <div class="info-panel">
-            <img src="https://thexyzz.vercel.app/uploads/1769177499356.jpeg" class="info-img" alt="Killua Bot">
+            <img src="https://h.uguu.se/UthXSOvk.jpeg" class="info-img" alt="Killua Bot">
             <div class="action-bar">
                 <a href="https://whatsapp.com/channel/0029VbBG4i2GE56rSgXsqw2W" target="_blank"><i class="fab fa-whatsapp"></i></a>
                 <a href="https://github.com/the-xyzz" target="_blank"><i class="fab fa-github"></i></a>
@@ -216,9 +186,9 @@
         </div>
 
         <div class="upload-panel">
-            <span class="upload-title"><i class="fas fa-bolt" style="color: var(--accent)"></i> Media Uploader</span>
+            <span style="font-size: 1rem; font-weight: bold; margin-bottom: 20px; display: block;"><i class="fas fa-bolt" style="color: var(--accent)"></i> Media Uploader</span>
             <label for="file-input" class="drop-zone" id="drop-label">
-                <i class="fas fa-cloud-upload-alt"></i><br>
+                <i class="fas fa-cloud-upload-alt" style="font-size: 2rem; color: var(--accent);"></i><br>
                 <span id="file-name">Select Image or Video</span>
             </label>
             <input type="file" id="file-input" accept="image/*,video/*" onchange="updateFileName()">
@@ -228,10 +198,8 @@
             </button>
             
             <div id="result">
-                <strong style="color: white">Success! Link ready:</strong><br>
-                <div style="margin-top: 8px;">
-                    <a href="#" id="file-link" target="_blank"></a>
-                </div>
+                <strong style="color: white">Link ready:</strong><br>
+                <a href="#" id="file-link" target="_blank"></a>
             </div>
         </div>
     </div>
@@ -249,49 +217,28 @@
         function updateFileName() {
             const input = document.getElementById('file-input');
             const label = document.getElementById('file-name');
-            if (input.files.length > 0) {
-                label.innerText = input.files[0].name;
-                label.style.color = "#1DB954";
-            }
+            if (input.files.length > 0) { label.innerText = input.files[0].name; label.style.color = "#1DB954"; }
         }
 
         async function processUpload() {
             const fileInput = document.getElementById('file-input');
             const btn = document.getElementById('upload-btn');
-            const resultDiv = document.getElementById('result');
-            
-            if (!fileInput.files[0]) {
-                alert("Please select a file first!");
-                return;
-            }
+            if (!fileInput.files[0]) return alert("Please select a file!");
 
             btn.innerText = "Processing...";
-            btn.style.opacity = "0.7";
-            btn.disabled = true;
-
             const formData = new FormData();
             formData.append('file', fileInput.files[0]);
 
             try {
                 const res = await fetch('/upload-file', { method: 'POST', body: formData });
                 const data = await res.json();
-                
-                resultDiv.style.display = 'block';
+                document.getElementById('result').style.display = 'block';
                 const link = document.getElementById('file-link');
-                link.href = data.url;
-                link.innerText = data.url;
-                
+                link.href = data.url; link.innerText = data.url;
                 btn.innerText = "Upload Another";
-                btn.style.opacity = "1";
-                btn.disabled = false;
-                btn.style.background = "#1DB954";
-                btn.style.color = "white";
-                
             } catch (e) {
-                alert("Upload failed. Try again.");
+                alert("Upload failed.");
                 btn.innerText = "Convert & Upload";
-                btn.disabled = false;
-                btn.style.opacity = "1";
             }
         }
     </script>
