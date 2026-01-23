@@ -1,6 +1,7 @@
 {
   "name": "Web Xyzz",
   "version": "1.0.0",
+  "description": "Web oficial | the-xyz",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
