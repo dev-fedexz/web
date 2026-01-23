@@ -5,7 +5,6 @@ const fs = require('fs');
 const os = require('os');
 const app = express();
 
-
 const uploadDir = path.join(os.tmpdir(), 'uploads');
 if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true });
@@ -16,7 +15,6 @@ const storage = multer.diskStorage({
     cb(null, uploadDir);
   },
   filename: (req, file, cb) => {
-    
     const timestampId = Date.now(); 
     const finalExt = file.mimetype.startsWith('image/') ? '.jpeg' : '.mp4';
     cb(null, `${timestampId}${finalExt}`);
@@ -37,9 +35,8 @@ app.get('/uploads/:filename', (req, res) => {
 });
 
 app.post('/upload-file', upload.single('file'), (req, res) => {
-  if (!req.file) return res.status(400).send('No file.');
+  if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
   
-
   const fileUrl = `https://${req.get('host')}/uploads/${req.file.filename}`;
   res.json({ url: fileUrl });
 });
@@ -50,5 +47,5 @@ app.get('*', (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server running`);
+  console.log(`API Killua running`);
 });
