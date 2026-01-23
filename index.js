@@ -8,7 +8,7 @@ let storageDB = {};
 const storage = multer.memoryStorage();
 const upload = multer({ 
     storage: storage,
-    limits: { fileSize: 20 * 1024 * 1024 }
+    limits: { fileSize: 20 * 1024 * 1024 } // Límite de 20MB
 });
 
 app.use(express.static(path.join(__dirname, 'lib')));
@@ -27,7 +27,19 @@ app.post('/upload-file', upload.single('file'), (req, res) => {
     if (!req.file) return res.status(400).json({ error: 'No file' });
 
     const timestampId = Date.now();
-    const ext = req.file.mimetype.startsWith('image/') ? '.jpeg' : '.mp4';
+    let ext = '';
+
+    if (req.file.mimetype.startsWith('image/')) {
+        ext = '.jpeg';
+    } else if (req.file.mimetype.startsWith('video/')) {
+        ext = '.mp4';
+    } else if (req.file.mimetype.startsWith('audio/')) {
+        ext = '.mp3';
+    } else {
+        
+        ext = '.' + req.file.originalname.split('.').pop();
+    }
+
     const fileName = `${timestampId}${ext}`;
 
     storageDB[fileName] = {
@@ -46,5 +58,5 @@ app.get('*', (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Servidor Killua funcionando en el dominio propio`);
+    console.log(`Servidor de Killua activo.`);
 });
