@@ -81,14 +81,14 @@
             overflow: hidden;
             position: relative;
             box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            background: #111; /* Color de carga */
+            background: #111;
             min-height: 200px;
         }
         .hero-img img { width: 100%; display: block; object-fit: cover; }
 
         h1 { font-size: 1.4rem; letter-spacing: 8px; margin: 40px 0; font-weight: 200; text-transform: uppercase; }
 
-        .info-panel, .upload-panel {
+        .info-panel, .upload-panel, .api-panel {
             background: var(--panel-bg);
             backdrop-filter: blur(10px);
             border-radius: 30px;
@@ -142,6 +142,46 @@
         }
         .btn-up:hover { background: var(--accent); color: white; }
 
+        /* Estilos Aptoide */
+        .api-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+            text-align: left;
+            transition: 0.3s;
+        }
+        .api-card:hover { border-color: var(--accent); }
+        .api-header { display: flex; justify-content: space-between; align-items: flex-start; }
+        .api-name { font-weight: bold; font-size: 0.9rem; color: white; }
+        .api-status { font-size: 0.6rem; background: var(--accent); color: black; padding: 2px 8px; border-radius: 10px; font-weight: 800; }
+        .api-desc { font-size: 0.75rem; color: var(--text-dim); margin: 8px 0; }
+        .api-btn {
+            display: inline-block;
+            background: var(--glass);
+            border: 1px solid var(--border);
+            color: var(--accent);
+            padding: 5px 12px;
+            border-radius: 8px;
+            font-size: 0.7rem;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .api-btn:hover { background: var(--accent); color: black; }
+        .category-title {
+            font-size: 0.75rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin: 20px 0 10px 5px;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
         #result {
             margin-top: 20px;
             font-size: 0.8rem;
@@ -194,13 +234,22 @@
             </label>
             <input type="file" id="file-input" accept="image/*,video/*,audio/*" onchange="updateFileName()">
             
-            <button class="btn-up" id="upload-btn" onclick="processUpload()">
+            <button class="btn-up" id="upload-btn" onclick="processUpload()" style="margin-top: 20px;">
                 Convert & Upload
             </button>
             
             <div id="result">
                 <strong style="color: white">Link ready:</strong><br>
                 <a href="#" id="file-link" target="_blank"></a>
+            </div>
+        </div>
+
+        <div class="api-panel">
+            <span style="font-size: 1rem; font-weight: bold; margin-bottom: 20px; display: block; text-align: center;">
+                <i class="fas fa-cubes" style="color: var(--accent)"></i> Killua Aptoides
+            </span>
+            <div id="apis-container">
+                <p style="font-size: 0.8rem; color: var(--text-dim);">Loading APIs...</p>
             </div>
         </div>
     </div>
@@ -221,9 +270,36 @@
             if (input.files.length > 0) { 
                 label.innerText = input.files[0].name; 
                 label.style.color = "#1DB954"; 
-            } else {
-                label.innerText = "Select Image, Video or Audio";
-                label.style.color = "var(--text-dim)";
+            }
+        }
+
+        // Cargar Aptoides desde apis.json
+        async function loadAptoides() {
+            const container = document.getElementById('apis-container');
+            try {
+                const res = await fetch('/api/list');
+                const data = await res.json();
+                
+                let html = '';
+                data.categories.forEach(cat => {
+                    html += `<div class="category-title"><i class="fas fa-chevron-right"></i> ${cat.name}</div>`;
+                    cat.items.forEach(item => {
+                        html += `
+                        <div class="api-card">
+                            <div class="api-header">
+                                <span class="api-name">${item.name}</span>
+                                <span class="api-status">${item.status}</span>
+                            </div>
+                            <p class="api-desc">${item.desc}</p>
+                            <a href="${item.path}" target="_blank" class="api-btn">
+                                <i class="fas fa-play"></i> Test API
+                            </a>
+                        </div>`;
+                    });
+                });
+                container.innerHTML = html;
+            } catch (e) {
+                container.innerHTML = '<p style="color: #ff4444;">Error al cargar las categorías.</p>';
             }
         }
 
@@ -241,24 +317,22 @@
             try {
                 const res = await fetch('/upload-file', { method: 'POST', body: formData });
                 const data = await res.json();
-                
                 if (data.url) {
                     document.getElementById('result').style.display = 'block';
                     const link = document.getElementById('file-link');
-                    link.href = data.url; 
-                    link.innerText = data.url;
+                    link.href = data.url; link.innerText = data.url;
                     btn.innerText = "Upload Another";
-                } else {
-                    alert("Error: No se recibió la URL.");
                 }
             } catch (e) {
-                console.error(e);
                 alert("Upload failed.");
                 btn.innerText = "Convert & Upload";
             } finally {
                 btn.disabled = false;
             }
         }
+
+        // Inicializar Aptoides al cargar
+        window.onload = loadAptoides;
     </script>
 </body>
-            </html>
+                                                                                                    </html>
