@@ -1,55 +1,63 @@
 const express = require('express');
+const path = require('path');
 const multer = require('multer');
-const fetch = require('node-fetch');
+const axios = require('axios');
 const app = express();
 
-const GITHUB_TOKEN = "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";
+const GITHUB_TOKEN = "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"; 
 const REPO_OWNER = "dev-fedexz";
 const REPO_NAME = "web";
 const BRANCH = "main";
 
 const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
+const upload = multer({ storage: storage, limits: { fileSize: 25 * 1024 * 1024 } });
 
-app.use(express.static('lib'));
+app.use(express.static(path.join(__dirname, 'lib')));
+
+app.get('/uploads/:filename', async (req, res) => {
+    const { filename } = req.params;
+    const githubRawUrl = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/${BRANCH}/uploads/${filename}`;
+    
+    try {
+        const response = await axios.get(githubRawUrl, { responseType: 'arraybuffer' });
+        const contentType = response.headers['content-type'] || 'application/octet-stream';
+        res.setHeader('Content-Type', contentType);
+        res.send(response.data);
+    } catch (e) {
+        res.status(404).send('Archivo no encontrado');
+    }
+});
 
 app.post('/upload-file', upload.single('file'), async (req, res) => {
     if (!req.file) return res.status(400).json({ error: 'No file' });
 
     const timestampId = Date.now();
-    let ext = '';
+    let ext = path.extname(req.file.originalname) || '.jpeg';
     if (req.file.mimetype.startsWith('image/')) ext = '.jpeg';
     else if (req.file.mimetype.startsWith('video/')) ext = '.mp4';
     else if (req.file.mimetype.startsWith('audio/')) ext = '.mp3';
-    else ext = '.' + req.file.originalname.split('.').pop();
 
     const fileName = `${timestampId}${ext}`;
-    const filePath = `uploads/${fileName}`;
-
     const contentBase64 = req.file.buffer.toString('base64');
 
     try {
-        const response = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${filePath}`, {
-            method: 'PUT',
-            headers: {
-                'Authorization': `token ${GITHUB_TOKEN}`,
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
+        await axios.put(
+            `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/uploads/${fileName}`,
+            {
                 message: `Upload: ${fileName}`,
                 content: contentBase64,
                 branch: BRANCH
-            })
-        });
+            },
+            {
+                headers: { 'Authorization': `token ${GITHUB_TOKEN}` }
+            }
+        );
 
-        if (!response.ok) throw new Error('Error al subir a GitHub');
-
-        const fileUrl = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/${BRANCH}/${filePath}`;
-        
+        const fileUrl = `https://${req.get('host')}/uploads/${fileName}`;
         res.json({ url: fileUrl });
 
     } catch (e) {
-        console.error(e);
+        console.error(e.response ? e.response.data : e.message);
         res.status(500).json({ error: 'Error al subir a GitHub' });
     }
 });
@@ -59,4 +67,4 @@ app.get('*', (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`API GitHub Uploader activa`));
+app.listen(PORT, () => console.log('Server Ready'));
