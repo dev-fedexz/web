@@ -9,15 +9,11 @@
   "routes": [
     {
       "src": "/uploads/(.*)",
-      "dest": "/index.js"
-    },
-    {
-      "src": "/upload-file",
-      "dest": "/index.js"
+      "dest": "index.js"
     },
     {
       "src": "/(.*)",
-      "dest": "/index.js"
+      "dest": "index.js"
     }
   ]
 }
