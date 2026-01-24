@@ -4,11 +4,10 @@ const multer = require('multer');
 const axios = require('axios');
 const app = express();
 
-const GITHUB_TOKEN = "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"; 
-const REPO_OWNER = "dev-fedexz";
-const REPO_NAME = "web";
+const GITHUB_TOKEN = "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"; 
+const REPO_OWNER = "the-xyzz";
+const REPO_NAME = "Killua";
 const BRANCH = "main";
-
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage, limits: { fileSize: 25 * 1024 * 1024 } });
 
