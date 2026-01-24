@@ -30,7 +30,6 @@
             overflow-x: hidden;
         }
 
-        /* Menu Flotante */
         #menuToggle {
             position: fixed;
             top: 25px;
@@ -59,6 +58,7 @@
             border-right: 1px solid var(--border);
         }
         .sidebar.active { left: 0; }
+        .sidebar h2 { font-size: 0.7rem; color:grey; text-align:center; letter-spacing: 3px; }
         .sidebar a {
             padding: 15px 20px;
             text-decoration: none;
@@ -72,7 +72,6 @@
         }
         .sidebar a:hover { background: var(--glass); color: white; }
 
-        /* Contenido */
         .main-content { margin-top: 100px; width: 90%; max-width: 400px; text-align: center; }
         
         .hero-img {
@@ -81,7 +80,7 @@
             overflow: hidden;
             position: relative;
             box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            background: #111; /* Color de carga */
+            background: #111;
             min-height: 200px;
         }
         .hero-img img { width: 100%; display: block; object-fit: cover; }
@@ -113,7 +112,8 @@
             border: 1px solid var(--border);
             backdrop-filter: blur(15px);
         }
-        .action-bar a { color: white; font-size: 1.3rem; opacity: 0.8; }
+        .action-bar a { color: white; font-size: 1.3rem; opacity: 0.8; transition: 0.3s; }
+        .action-bar a:hover { color: var(--accent); opacity: 1; }
 
         .drop-zone {
             border: 2px dashed rgba(255,255,255,0.1);
@@ -124,7 +124,7 @@
             transition: 0.3s;
             display: block;
         }
-        .drop-zone:hover { border-color: var(--accent); color: white; }
+        .drop-zone:hover { border-color: var(--accent); color: white; background: rgba(29, 185, 84, 0.05); }
         
         #file-input { display: none; }
 
@@ -139,8 +139,10 @@
             cursor: pointer;
             transition: 0.3s;
             text-transform: uppercase;
+            margin-top: 10px;
         }
-        .btn-up:hover { background: var(--accent); color: white; }
+        .btn-up:hover { background: var(--accent); color: white; transform: scale(1.02); }
+        .btn-up:disabled { background: #333; color: #666; cursor: not-allowed; }
 
         #result {
             margin-top: 20px;
@@ -150,17 +152,18 @@
             padding: 15px;
             border-radius: 15px;
             border: 1px solid rgba(29, 185, 84, 0.2);
+            word-break: break-all;
         }
         #result a { color: var(--accent); text-decoration: none; font-weight: bold; }
 
-        footer { margin-top: 50px; font-size: 0.6rem; opacity: 0.4; letter-spacing: 3px; }
-        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 98; }
+        footer { margin-top: 50px; font-size: 0.6rem; opacity: 0.4; letter-spacing: 3px; font-weight: bold; }
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 98; backdrop-filter: blur(3px); }
     </style>
 </head>
 <body>
     <div id="menuToggle" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
     <div class="sidebar" id="sidebar">
-        <h2 style="font-size: 0.7rem; color:grey; text-align:center;">KILLUA MENU</h2>
+        <h2>KILLUA MENU</h2>
         <a href="https://whatsapp.com/channel/0029VbBG4i2GE56rSgXsqw2W" target="_blank"><i class="fab fa-whatsapp"></i> Channel</a>
         <a href="https://github.com/the-xyzz" target="_blank"><i class="fab fa-github"></i> GitHub</a>
     </div>
@@ -189,17 +192,20 @@
             <span style="font-size: 1rem; font-weight: bold; margin-bottom: 20px; display: block;"><i class="fas fa-bolt" style="color: var(--accent)"></i> Media Uploader</span>
             <label for="file-input" class="drop-zone" id="drop-label">
                 <i class="fas fa-cloud-upload-alt" style="font-size: 2rem; color: var(--accent);"></i><br>
-                <span id="file-name">Select Image or Video</span>
+                <span id="file-name">Select Image, Video or Audio</span>
             </label>
-            <input type="file" id="file-input" accept="image/*,video/*" onchange="updateFileName()">
+            <input type="file" id="file-input" accept="image/*,video/*,audio/*" onchange="updateFileName()">
             
             <button class="btn-up" id="upload-btn" onclick="processUpload()">
                 Convert & Upload
             </button>
             
             <div id="result">
-                <strong style="color: white">Link ready:</strong><br>
-                <a href="#" id="file-link" target="_blank"></a>
+                <strong style="color: white">Link ready!</strong><br>
+                <div style="margin: 10px 0;">
+                    <a href="#" id="file-link" target="_blank"></a>
+                </div>
+                <button onclick="copyLink()" style="background: var(--accent); color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 0.7rem;">Copy Link</button>
             </div>
         </div>
     </div>
@@ -217,30 +223,52 @@
         function updateFileName() {
             const input = document.getElementById('file-input');
             const label = document.getElementById('file-name');
-            if (input.files.length > 0) { label.innerText = input.files[0].name; label.style.color = "#1DB954"; }
+            if (input.files.length > 0) { 
+                label.innerText = input.files[0].name; 
+                label.style.color = "#1DB954"; 
+            }
         }
 
         async function processUpload() {
             const fileInput = document.getElementById('file-input');
             const btn = document.getElementById('upload-btn');
-            if (!fileInput.files[0]) return alert("Please select a file!");
+            const resultDiv = document.getElementById('result');
+            
+            if (!fileInput.files[0]) return alert("Please select a file first!");
 
-            btn.innerText = "Processing...";
+            btn.innerText = "Uploading to GitHub...";
+            btn.disabled = true;
+
             const formData = new FormData();
             formData.append('file', fileInput.files[0]);
 
             try {
                 const res = await fetch('/upload-file', { method: 'POST', body: formData });
                 const data = await res.json();
-                document.getElementById('result').style.display = 'block';
-                const link = document.getElementById('file-link');
-                link.href = data.url; link.innerText = data.url;
-                btn.innerText = "Upload Another";
+                
+                if(data.url) {
+                    resultDiv.style.display = 'block';
+                    const link = document.getElementById('file-link');
+                    link.href = data.url; 
+                    link.innerText = data.url;
+                    btn.innerText = "Upload Another";
+                } else {
+                    throw new Error("Invalid response");
+                }
             } catch (e) {
-                alert("Upload failed.");
+                alert("Upload failed. Check your GitHub Token and Server.");
                 btn.innerText = "Convert & Upload";
+            } finally {
+                btn.disabled = false;
             }
+        }
+
+        function copyLink() {
+            const link = document.getElementById('file-link').innerText;
+            navigator.clipboard.writeText(link).then(() => {
+                alert("Link copied to clipboard!");
+            });
         }
     </script>
 </body>
-            </html>
+    </html>
