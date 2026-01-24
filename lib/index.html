@@ -19,47 +19,141 @@
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: var(--dark-bg);
-            background-image: radial-gradient(circle at top right, rgba(29, 185, 84, 0.08), transparent);
-            margin: 0; display: flex; flex-direction: column; align-items: center; color: white; padding-bottom: 60px; overflow-x: hidden;
+            background-image: radial-gradient(circle at top right, rgba(29, 185, 84, 0.08), transparent),
+                              radial-gradient(circle at bottom left, rgba(255, 255, 255, 0.02), transparent);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: white;
+            padding-bottom: 60px;
+            overflow-x: hidden;
         }
 
-        #menuToggle { position: fixed; top: 25px; left: 25px; z-index: 100; cursor: pointer; background: var(--glass); backdrop-filter: blur(10px); padding: 12px; border-radius: 12px; border: 1px solid var(--border); }
-        .sidebar { position: fixed; top: 0; left: -280px; width: 250px; height: 100%; background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(20px); transition: 0.5s; z-index: 99; padding: 40px 15px; border-right: 1px solid var(--border); }
-        .sidebar.active { left: 0; }
-        .sidebar a { padding: 15px 20px; text-decoration: none; font-size: 0.9rem; color: var(--text-dim); display: flex; align-items: center; gap: 15px; }
+        /* Menu Flotante */
+        #menuToggle {
+            position: fixed;
+            top: 25px;
+            left: 25px;
+            z-index: 100;
+            cursor: pointer;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            transition: 0.3s;
+        }
 
-        .main-content { margin-top: 100px; width: 90%; max-width: 450px; text-align: center; }
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -280px;
+            width: 250px;
+            height: 100%;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(20px);
+            transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 99;
+            padding: 40px 15px;
+            border-right: 1px solid var(--border);
+        }
+        .sidebar.active { left: 0; }
+        .sidebar a {
+            padding: 15px 20px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            color: var(--text-dim);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-radius: 12px;
+            transition: 0.3s;
+        }
+        .sidebar a:hover { background: var(--glass); color: white; }
+
+        /* Contenido */
+        .main-content { margin-top: 100px; width: 90%; max-width: 400px; text-align: center; }
         
-        .hero-img { width: 100%; border-radius: 28px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
-        .hero-img img { width: 100%; display: block; }
+        .hero-img {
+            width: 100%;
+            border-radius: 28px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            background: #111; /* Color de carga */
+            min-height: 200px;
+        }
+        .hero-img img { width: 100%; display: block; object-fit: cover; }
 
         h1 { font-size: 1.4rem; letter-spacing: 8px; margin: 40px 0; font-weight: 200; text-transform: uppercase; }
 
-        .panel { background: var(--panel-bg); backdrop-filter: blur(10px); border-radius: 30px; padding: 20px; border: 1px solid var(--border); margin-bottom: 25px; }
+        .info-panel, .upload-panel {
+            background: var(--panel-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 20px;
+            border: 1px solid var(--border);
+            margin-bottom: 25px;
+        }
 
-        /* Aptoides */
-        .api-card { background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border); border-radius: 20px; padding: 15px; margin-bottom: 15px; text-align: left; }
-        .api-name { font-weight: bold; font-size: 0.95rem; color: white; margin-bottom: 5px; display: block; }
-        .api-desc { font-size: 0.75rem; color: var(--text-dim); margin-bottom: 12px; }
+        .info-img { width: 100%; border-radius: 20px; display: block; background: #111; }
         
-        .api-btn { background: var(--accent); color: black; padding: 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 800; border: none; cursor: pointer; width: 100%; transition: 0.3s; }
-        .api-btn:hover { opacity: 0.8; transform: scale(0.98); }
-
-        .tester-input {
-            width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--border);
-            padding: 12px; border-radius: 10px; color: white; font-size: 0.8rem; margin-bottom: 10px; box-sizing: border-box;
+        .action-bar {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            background: rgba(255,255,255,0.05);
+            margin: -25px auto 20px;
+            width: fit-content;
+            padding: 12px 30px;
+            border-radius: 50px;
+            position: relative;
+            z-index: 5;
+            border: 1px solid var(--border);
+            backdrop-filter: blur(15px);
         }
+        .action-bar a { color: white; font-size: 1.3rem; opacity: 0.8; }
 
-        .json-response {
-            background: #000; color: #00ff00; font-family: monospace; font-size: 0.7rem;
-            padding: 10px; border-radius: 10px; max-height: 200px; overflow: auto; white-space: pre-wrap;
-            border: 1px solid #111; margin-top: 10px; display: none;
+        .drop-zone {
+            border: 2px dashed rgba(255,255,255,0.1);
+            padding: 40px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            color: var(--text-dim);
+            transition: 0.3s;
+            display: block;
         }
+        .drop-zone:hover { border-color: var(--accent); color: white; }
+        
+        #file-input { display: none; }
 
-        .img-preview { width: 100%; border-radius: 10px; margin-top: 10px; display: none; border: 1px solid var(--border); }
-        .category-title { font-size: 0.7rem; color: var(--accent); text-transform: uppercase; letter-spacing: 2px; margin: 25px 0 10px; text-align: left; }
+        .btn-up {
+            background: white;
+            color: black;
+            border: none;
+            width: 100%;
+            padding: 16px;
+            border-radius: 50px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+        .btn-up:hover { background: var(--accent); color: white; }
 
-        .drop-zone { border: 2px dashed rgba(255,255,255,0.1); padding: 30px; border-radius: 20px; cursor: pointer; color: var(--text-dim); display: block; }
+        #result {
+            margin-top: 20px;
+            font-size: 0.8rem;
+            display: none;
+            background: rgba(29, 185, 84, 0.1);
+            padding: 15px;
+            border-radius: 15px;
+            border: 1px solid rgba(29, 185, 84, 0.2);
+            word-break: break-all;
+        }
+        #result a { color: var(--accent); text-decoration: none; font-weight: bold; }
+
         footer { margin-top: 50px; font-size: 0.6rem; opacity: 0.4; letter-spacing: 3px; }
         .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 98; }
     </style>
@@ -67,27 +161,47 @@
 <body>
     <div id="menuToggle" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
     <div class="sidebar" id="sidebar">
-        <h2 style="font-size: 0.7rem; color:grey; text-align:center; margin-bottom: 20px;">KILLUA MENU</h2>
-        <a href="https://whatsapp.com/channel/0029VbBG4i2GE56rSgXsqw2W" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+        <h2 style="font-size: 0.7rem; color:grey; text-align:center;">KILLUA MENU</h2>
+        <a href="https://whatsapp.com/channel/0029VbBG4i2GE56rSgXsqw2W" target="_blank"><i class="fab fa-whatsapp"></i> Channel</a>
         <a href="https://github.com/the-xyzz" target="_blank"><i class="fab fa-github"></i> GitHub</a>
     </div>
     <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
 
     <div class="main-content">
-        <div class="hero-img"><img src="https://raw.githubusercontent.com/the-xyzz/Killua/main/uploads/1769178219027.jpeg" alt="Hero"></div>
+        <div class="hero-img">
+            <img src="https://raw.githubusercontent.com/the-xyzz/Killua/main/uploads/1769178219027.jpeg" alt="Killua Hero">
+        </div>
+        
         <h1>Killua Web</h1>
 
-        <div class="panel">
-            <span style="font-weight: bold; display: block; margin-bottom: 15px;">Media Uploader</span>
-            <label for="file-input" class="drop-zone"><i class="fas fa-cloud-upload-alt"></i> <br> <span id="file-name">Select File</span></label>
-            <input type="file" id="file-input" onchange="updateFileName()" hidden>
-            <button class="api-btn" onclick="processUpload()" style="margin-top:15px;">Upload To Server</button>
-            <div id="up-res" style="display:none; margin-top:10px; font-size:0.75rem;">URL: <a href="#" id="up-link" style="color:var(--accent)" target="_blank"></a></div>
+        <div class="info-panel">
+            <img src="https://raw.githubusercontent.com/the-xyzz/Killua/main/uploads/1769178850735.jpeg" class="info-img" alt="Killua Bot">
+            <div class="action-bar">
+                <a href="https://whatsapp.com/channel/0029VbBG4i2GE56rSgXsqw2W" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                <a href="https://github.com/the-xyzz" target="_blank"><i class="fab fa-github"></i></a>
+            </div>
+            <div class="info-text">
+                <span style="font-size: 1rem; font-weight: bold; display: block; margin-bottom: 5px;">Wabot Information</span>
+                <p style="font-size: 0.85rem; color: var(--text-dim); margin: 0;">The most powerful and fast WhatsApp Bot service.</p>
+            </div>
         </div>
 
-        <div class="panel">
-            <span style="font-weight: bold; display: block; margin-bottom: 20px;">Killua Aptoides</span>
-            <div id="apis-container">Cargando módulos...</div>
+        <div class="upload-panel">
+            <span style="font-size: 1rem; font-weight: bold; margin-bottom: 20px; display: block;"><i class="fas fa-bolt" style="color: var(--accent)"></i> Media Uploader</span>
+            <label for="file-input" class="drop-zone" id="drop-label">
+                <i class="fas fa-cloud-upload-alt" style="font-size: 2rem; color: var(--accent);"></i><br>
+                <span id="file-name">Select Image, Video or Audio</span>
+            </label>
+            <input type="file" id="file-input" accept="image/*,video/*,audio/*" onchange="updateFileName()">
+            
+            <button class="btn-up" id="upload-btn" onclick="processUpload()">
+                Convert & Upload
+            </button>
+            
+            <div id="result">
+                <strong style="color: white">Link ready:</strong><br>
+                <a href="#" id="file-link" target="_blank"></a>
+            </div>
         </div>
     </div>
 
@@ -103,101 +217,48 @@
 
         function updateFileName() {
             const input = document.getElementById('file-input');
-            if(input.files[0]) document.getElementById('file-name').innerText = input.files[0].name;
-        }
-
-        async function loadAptoides() {
-            const container = document.getElementById('apis-container');
-            try {
-                const res = await fetch('/api/list');
-                // Validar que la respuesta sea JSON real y no el HTML del error
-                const text = await res.text();
-                let data;
-                try {
-                    data = JSON.parse(text);
-                } catch(e) {
-                    throw new Error("El servidor envió HTML en lugar de JSON. Revisa tus rutas.");
-                }
-
-                let html = '';
-                data.categories.forEach((cat, cIdx) => {
-                    html += `<div class="category-title">${cat.name}</div>`;
-                    cat.items.forEach((item, iIdx) => {
-                        const id = `api-${cIdx}-${iIdx}`;
-                        const isRandom = cat.name.toLowerCase().includes('random');
-                        const isUrl = cat.name.toLowerCase().includes('downloader') || cat.name.toLowerCase().includes('tools');
-                        
-                        html += `
-                        <div class="api-card">
-                            <span class="api-name">${item.name}</span>
-                            <p class="api-desc">${item.desc}</p>
-                            ${!isRandom ? `<input type="text" id="input-${id}" class="tester-input" placeholder="${isUrl ? 'Pega el Link aquí...' : 'Escribe el texto aquí...'}">` : ''}
-                            <button class="api-btn" onclick="runTest('${id}', '${item.path}', ${isRandom})">
-                                ${isRandom ? 'Generar Imagen' : 'Ejecutar JSON'}
-                            </button>
-                            <img id="img-${id}" class="img-preview">
-                            <pre id="res-${id}" class="json-response"></pre>
-                        </div>`;
-                    });
-                });
-                container.innerHTML = html;
-            } catch (e) {
-                container.innerHTML = `<p style="color:red; font-size:0.7rem;">${e.message}</p>`;
-            }
-        }
-
-        async function runTest(id, path, isRandom) {
-            const input = document.getElementById(`input-${id}`);
-            const resBox = document.getElementById(`res-${id}`);
-            const imgPrev = document.getElementById(`img-${id}`);
-            const query = input ? input.value.trim() : '';
-
-            resBox.style.display = "none";
-            imgPrev.style.display = "none";
-
-            let finalUrl = path;
-            if (!isRandom && query) {
-                if (path.includes('text=')) finalUrl = path.split('text=')[0] + `text=${encodeURIComponent(query)}`;
-                else if (path.includes('url=')) finalUrl = path.split('url=')[0] + `url=${encodeURIComponent(query)}`;
-                else if (path.includes('q=')) finalUrl = path.split('q=')[0] + `q=${encodeURIComponent(query)}`;
-                else finalUrl += (finalUrl.includes('?') ? '&' : '?') + `query=${encodeURIComponent(query)}`;
-            }
-
-            try {
-                const response = await fetch(finalUrl);
-                const contentType = response.headers.get("content-type");
-
-                if (contentType && contentType.includes("image")) {
-                    imgPrev.src = finalUrl;
-                    imgPrev.style.display = "block";
-                } else {
-                    const data = await response.json();
-                    resBox.innerText = JSON.stringify(data, null, 2);
-                    resBox.style.display = "block";
-                }
-            } catch (e) {
-                resBox.innerText = "Error al ejecutar. Revisa los parámetros.";
-                resBox.style.display = "block";
+            const label = document.getElementById('file-name');
+            if (input.files.length > 0) { 
+                label.innerText = input.files[0].name; 
+                label.style.color = "#1DB954"; 
+            } else {
+                label.innerText = "Select Image, Video or Audio";
+                label.style.color = "var(--text-dim)";
             }
         }
 
         async function processUpload() {
             const fileInput = document.getElementById('file-input');
-            if (!fileInput.files[0]) return alert("Selecciona un archivo primero");
+            const btn = document.getElementById('upload-btn');
+            if (!fileInput.files[0]) return alert("Please select a file!");
+
+            btn.innerText = "Processing...";
+            btn.disabled = true;
+
             const formData = new FormData();
             formData.append('file', fileInput.files[0]);
+
             try {
                 const res = await fetch('/upload-file', { method: 'POST', body: formData });
                 const data = await res.json();
+                
                 if (data.url) {
-                    document.getElementById('up-res').style.display = 'block';
-                    document.getElementById('up-link').href = data.url;
-                    document.getElementById('up-link').innerText = data.url;
+                    document.getElementById('result').style.display = 'block';
+                    const link = document.getElementById('file-link');
+                    link.href = data.url; 
+                    link.innerText = data.url;
+                    btn.innerText = "Upload Another";
+                } else {
+                    alert("Error: No se recibió la URL.");
                 }
-            } catch (e) { alert("Error al subir"); }
+            } catch (e) {
+                console.error(e);
+                alert("Upload failed.");
+                btn.innerText = "Convert & Upload";
+            } finally {
+                btn.disabled = false;
+            }
         }
-
-        window.onload = loadAptoides;
     </script>
 </body>
-    </html>
+            </html>
