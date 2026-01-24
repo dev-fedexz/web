@@ -19,22 +19,15 @@
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: var(--dark-bg);
-            background-image: radial-gradient(circle at top right, rgba(29, 185, 84, 0.08), transparent),
-                              radial-gradient(circle at bottom left, rgba(255, 255, 255, 0.02), transparent);
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            color: white;
-            padding-bottom: 60px;
-            overflow-x: hidden;
+            background-image: radial-gradient(circle at top right, rgba(29, 185, 84, 0.08), transparent);
+            margin: 0; display: flex; flex-direction: column; align-items: center; color: white; padding-bottom: 60px; overflow-x: hidden;
         }
 
-        /* Menú y Contenedores */
         #menuToggle { position: fixed; top: 25px; left: 25px; z-index: 100; cursor: pointer; background: var(--glass); backdrop-filter: blur(10px); padding: 12px; border-radius: 12px; border: 1px solid var(--border); }
         .sidebar { position: fixed; top: 0; left: -280px; width: 250px; height: 100%; background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(20px); transition: 0.5s; z-index: 99; padding: 40px 15px; border-right: 1px solid var(--border); }
         .sidebar.active { left: 0; }
-        .sidebar a { padding: 15px 20px; text-decoration: none; font-size: 0.9rem; color: var(--text-dim); display: flex; align-items: center; gap: 15px; border-radius: 12px; }
+        .sidebar a { padding: 15px 20px; text-decoration: none; font-size: 0.9rem; color: var(--text-dim); display: flex; align-items: center; gap: 15px; }
+
         .main-content { margin-top: 100px; width: 90%; max-width: 450px; text-align: center; }
         
         .hero-img { width: 100%; border-radius: 28px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
@@ -44,54 +37,28 @@
 
         .panel { background: var(--panel-bg); backdrop-filter: blur(10px); border-radius: 30px; padding: 20px; border: 1px solid var(--border); margin-bottom: 25px; }
 
-        /* Estilos Aptoide */
+        /* Aptoides */
         .api-card { background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border); border-radius: 20px; padding: 15px; margin-bottom: 15px; text-align: left; }
-        .api-name { font-weight: bold; font-size: 0.95rem; color: white; }
-        .api-desc { font-size: 0.75rem; color: var(--text-dim); margin: 5px 0 12px 0; }
+        .api-name { font-weight: bold; font-size: 0.95rem; color: white; margin-bottom: 5px; display: block; }
+        .api-desc { font-size: 0.75rem; color: var(--text-dim); margin-bottom: 12px; }
         
-        .api-btn { background: var(--accent); color: black; padding: 8px 15px; border-radius: 10px; font-size: 0.75rem; text-decoration: none; font-weight: 800; border: none; cursor: pointer; transition: 0.3s; }
-        .api-btn:hover { opacity: 0.8; }
+        .api-btn { background: var(--accent); color: black; padding: 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 800; border: none; cursor: pointer; width: 100%; transition: 0.3s; }
+        .api-btn:hover { opacity: 0.8; transform: scale(0.98); }
 
-        /* Consola de Pruebas (Desplegable) */
-        .tester-area { 
-            display: none; 
-            margin-top: 15px; 
-            padding-top: 15px; 
-            border-top: 1px solid var(--border); 
-        }
-        .tester-area.active { display: block; }
-
-        .tester-url { font-family: monospace; font-size: 0.65rem; color: var(--accent); background: rgba(0,0,0,0.3); padding: 8px; border-radius: 8px; word-break: break-all; margin-bottom: 10px; display: block; }
-        
         .tester-input {
-            width: 100%;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid var(--border);
-            padding: 10px;
-            border-radius: 10px;
-            color: white;
-            font-size: 0.8rem;
-            margin-bottom: 10px;
-            box-sizing: border-box;
+            width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+            padding: 12px; border-radius: 10px; color: white; font-size: 0.8rem; margin-bottom: 10px; box-sizing: border-box;
         }
 
         .json-response {
-            background: #000;
-            color: #00ff00;
-            font-family: 'Courier New', monospace;
-            font-size: 0.7rem;
-            padding: 10px;
-            border-radius: 10px;
-            max-height: 200px;
-            overflow-y: auto;
-            white-space: pre-wrap;
-            border: 1px solid #111;
-            display: none;
+            background: #000; color: #00ff00; font-family: monospace; font-size: 0.7rem;
+            padding: 10px; border-radius: 10px; max-height: 200px; overflow: auto; white-space: pre-wrap;
+            border: 1px solid #111; margin-top: 10px; display: none;
         }
 
-        .category-title { font-size: 0.7rem; color: var(--accent); text-transform: uppercase; letter-spacing: 2px; margin: 25px 0 12px 5px; text-align: left; opacity: 0.8; }
+        .img-preview { width: 100%; border-radius: 10px; margin-top: 10px; display: none; border: 1px solid var(--border); }
+        .category-title { font-size: 0.7rem; color: var(--accent); text-transform: uppercase; letter-spacing: 2px; margin: 25px 0 10px; text-align: left; }
 
-        /* Otros */
         .drop-zone { border: 2px dashed rgba(255,255,255,0.1); padding: 30px; border-radius: 20px; cursor: pointer; color: var(--text-dim); display: block; }
         footer { margin-top: 50px; font-size: 0.6rem; opacity: 0.4; letter-spacing: 3px; }
         .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 98; }
@@ -100,9 +67,9 @@
 <body>
     <div id="menuToggle" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
     <div class="sidebar" id="sidebar">
-        <h2 style="font-size: 0.7rem; color:grey; text-align:center;">KILLUA MENU</h2>
-        <a href="#"><i class="fab fa-whatsapp"></i> WhatsApp</a>
-        <a href="#"><i class="fab fa-github"></i> GitHub</a>
+        <h2 style="font-size: 0.7rem; color:grey; text-align:center; margin-bottom: 20px;">KILLUA MENU</h2>
+        <a href="https://whatsapp.com/channel/0029VbBG4i2GE56rSgXsqw2W" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+        <a href="https://github.com/the-xyzz" target="_blank"><i class="fab fa-github"></i> GitHub</a>
     </div>
     <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
 
@@ -111,16 +78,16 @@
         <h1>Killua Web</h1>
 
         <div class="panel">
-            <span style="font-size: 1rem; font-weight: bold; margin-bottom: 15px; display: block;">Media Uploader</span>
-            <label for="file-input" class="drop-zone"><i class="fas fa-cloud-upload-alt"></i> <span id="file-name">Select File</span></label>
+            <span style="font-weight: bold; display: block; margin-bottom: 15px;">Media Uploader</span>
+            <label for="file-input" class="drop-zone"><i class="fas fa-cloud-upload-alt"></i> <br> <span id="file-name">Select File</span></label>
             <input type="file" id="file-input" onchange="updateFileName()" hidden>
-            <button class="api-btn" onclick="processUpload()" style="width:100%; margin-top:15px; padding:15px;">Upload Media</button>
-            <div id="result" style="display:none; margin-top:10px; font-size:0.7rem;">Link: <a href="#" id="file-link" style="color:var(--accent)"></a></div>
+            <button class="api-btn" onclick="processUpload()" style="margin-top:15px;">Upload To Server</button>
+            <div id="up-res" style="display:none; margin-top:10px; font-size:0.75rem;">URL: <a href="#" id="up-link" style="color:var(--accent)" target="_blank"></a></div>
         </div>
 
         <div class="panel">
-            <span style="font-size: 1rem; font-weight: bold; margin-bottom: 20px; display: block;">Killua Aptoides</span>
-            <div id="apis-container">Cargando...</div>
+            <span style="font-weight: bold; display: block; margin-bottom: 20px;">Killua Aptoides</span>
+            <div id="apis-container">Cargando módulos...</div>
         </div>
     </div>
 
@@ -136,87 +103,101 @@
 
         function updateFileName() {
             const input = document.getElementById('file-input');
-            document.getElementById('file-name').innerText = input.files[0].name;
+            if(input.files[0]) document.getElementById('file-name').innerText = input.files[0].name;
         }
 
-        // CARGAR APTOIDES DINAMICAMENTE
         async function loadAptoides() {
             const container = document.getElementById('apis-container');
             try {
                 const res = await fetch('/api/list');
-                const data = await res.json();
-                
+                // Validar que la respuesta sea JSON real y no el HTML del error
+                const text = await res.text();
+                let data;
+                try {
+                    data = JSON.parse(text);
+                } catch(e) {
+                    throw new Error("El servidor envió HTML en lugar de JSON. Revisa tus rutas.");
+                }
+
                 let html = '';
                 data.categories.forEach((cat, cIdx) => {
                     html += `<div class="category-title">${cat.name}</div>`;
                     cat.items.forEach((item, iIdx) => {
                         const id = `api-${cIdx}-${iIdx}`;
-                        const fullBaseUrl = window.location.origin + item.path;
+                        const isRandom = cat.name.toLowerCase().includes('random');
+                        const isUrl = cat.name.toLowerCase().includes('downloader') || cat.name.toLowerCase().includes('tools');
                         
                         html += `
                         <div class="api-card">
-                            <div class="api-name">${item.name}</div>
+                            <span class="api-name">${item.name}</span>
                             <p class="api-desc">${item.desc}</p>
-                            <button class="api-btn" onclick="toggleTester('${id}')">Test API</button>
-                            
-                            <div id="${id}" class="tester-area">
-                                <code class="tester-url">${fullBaseUrl}</code>
-                                <input type="text" id="input-${id}" class="tester-input" placeholder="Escribe tu texto o URL aquí...">
-                                <button class="api-btn" style="background:white; color:black; width:100%;" onclick="runTest('${id}', '${item.path}')">Ejecutar JSON</button>
-                                <pre id="res-${id}" class="json-response"></pre>
-                            </div>
+                            ${!isRandom ? `<input type="text" id="input-${id}" class="tester-input" placeholder="${isUrl ? 'Pega el Link aquí...' : 'Escribe el texto aquí...'}">` : ''}
+                            <button class="api-btn" onclick="runTest('${id}', '${item.path}', ${isRandom})">
+                                ${isRandom ? 'Generar Imagen' : 'Ejecutar JSON'}
+                            </button>
+                            <img id="img-${id}" class="img-preview">
+                            <pre id="res-${id}" class="json-response"></pre>
                         </div>`;
                     });
                 });
                 container.innerHTML = html;
-            } catch (e) { container.innerHTML = "Error al cargar apis.json"; }
-        }
-
-        function toggleTester(id) {
-            document.getElementById(id).classList.toggle('active');
-        }
-
-        async function runTest(id, path) {
-            const query = document.getElementById(`input-${id}`).value;
-            const resBox = document.getElementById(`res-${id}`);
-            
-            // Construir la URL final basándose en el parámetro común (text, url, q o query)
-            let finalUrl = path;
-            if (query) {
-                if (path.includes('text=')) finalUrl = path.replace('text=', `text=${encodeURIComponent(query)}`);
-                else if (path.includes('url=')) finalUrl = path.replace('url=', `url=${encodeURIComponent(query)}`);
-                else if (path.includes('q=')) finalUrl = path.replace('q=', `q=${encodeURIComponent(query)}`);
-                else if (path.includes('query=')) finalUrl = path.replace('query=', `query=${encodeURIComponent(query)}`);
-                else finalUrl += (finalUrl.includes('?') ? '&' : '?') + `text=${encodeURIComponent(query)}`;
+            } catch (e) {
+                container.innerHTML = `<p style="color:red; font-size:0.7rem;">${e.message}</p>`;
             }
+        }
 
-            resBox.style.display = "block";
-            resBox.innerText = "Cargando respuesta...";
+        async function runTest(id, path, isRandom) {
+            const input = document.getElementById(`input-${id}`);
+            const resBox = document.getElementById(`res-${id}`);
+            const imgPrev = document.getElementById(`img-${id}`);
+            const query = input ? input.value.trim() : '';
+
+            resBox.style.display = "none";
+            imgPrev.style.display = "none";
+
+            let finalUrl = path;
+            if (!isRandom && query) {
+                if (path.includes('text=')) finalUrl = path.split('text=')[0] + `text=${encodeURIComponent(query)}`;
+                else if (path.includes('url=')) finalUrl = path.split('url=')[0] + `url=${encodeURIComponent(query)}`;
+                else if (path.includes('q=')) finalUrl = path.split('q=')[0] + `q=${encodeURIComponent(query)}`;
+                else finalUrl += (finalUrl.includes('?') ? '&' : '?') + `query=${encodeURIComponent(query)}`;
+            }
 
             try {
                 const response = await fetch(finalUrl);
-                const data = await response.json();
-                resBox.innerText = JSON.stringify(data, null, 2);
+                const contentType = response.headers.get("content-type");
+
+                if (contentType && contentType.includes("image")) {
+                    imgPrev.src = finalUrl;
+                    imgPrev.style.display = "block";
+                } else {
+                    const data = await response.json();
+                    resBox.innerText = JSON.stringify(data, null, 2);
+                    resBox.style.display = "block";
+                }
             } catch (e) {
-                resBox.innerText = "Error: " + e.message;
+                resBox.innerText = "Error al ejecutar. Revisa los parámetros.";
+                resBox.style.display = "block";
             }
         }
 
         async function processUpload() {
             const fileInput = document.getElementById('file-input');
-            if (!fileInput.files[0]) return alert("Selecciona un archivo");
+            if (!fileInput.files[0]) return alert("Selecciona un archivo primero");
             const formData = new FormData();
             formData.append('file', fileInput.files[0]);
-            const res = await fetch('/upload-file', { method: 'POST', body: formData });
-            const data = await res.json();
-            if (data.url) {
-                document.getElementById('result').style.display = 'block';
-                document.getElementById('file-link').href = data.url;
-                document.getElementById('file-link').innerText = data.url;
-            }
+            try {
+                const res = await fetch('/upload-file', { method: 'POST', body: formData });
+                const data = await res.json();
+                if (data.url) {
+                    document.getElementById('up-res').style.display = 'block';
+                    document.getElementById('up-link').href = data.url;
+                    document.getElementById('up-link').innerText = data.url;
+                }
+            } catch (e) { alert("Error al subir"); }
         }
 
         window.onload = loadAptoides;
     </script>
 </body>
-</html>
+    </html>
