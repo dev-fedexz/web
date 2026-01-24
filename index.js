@@ -1,64 +1,55 @@
 const express = require('express');
 const path = require('path');
 const multer = require('multer');
-const axios = require('axios');
 const app = express();
 
-const GITHUB_TOKEN = "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"; 
-const REPO_OWNER = "the-xyzz";
-const REPO_NAME = "Killua";
-const BRANCH = "main";
+let storageDB = {}; 
+
 const storage = multer.memoryStorage();
-const upload = multer({ storage: storage, limits: { fileSize: 25 * 1024 * 1024 } });
+const upload = multer({ 
+    storage: storage,
+    limits: { fileSize: 20 * 1024 * 1024 } // Límite de 20MB
+});
 
 app.use(express.static(path.join(__dirname, 'lib')));
 
-app.get('/uploads/:filename', async (req, res) => {
-    const { filename } = req.params;
-    const githubRawUrl = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/${BRANCH}/uploads/${filename}`;
-    
-    try {
-        const response = await axios.get(githubRawUrl, { responseType: 'arraybuffer' });
-        const contentType = response.headers['content-type'] || 'application/octet-stream';
-        res.setHeader('Content-Type', contentType);
-        res.send(response.data);
-    } catch (e) {
-        res.status(404).send('Archivo no encontrado');
+app.get('/uploads/:filename', (req, res) => {
+    const file = storageDB[req.params.filename];
+    if (file) {
+        res.set('Content-Type', file.mime);
+        res.send(file.buffer);
+    } else {
+        res.status(404).send('Archivo no encontrado o expirado');
     }
 });
 
-app.post('/upload-file', upload.single('file'), async (req, res) => {
+app.post('/upload-file', upload.single('file'), (req, res) => {
     if (!req.file) return res.status(400).json({ error: 'No file' });
 
     const timestampId = Date.now();
-    let ext = path.extname(req.file.originalname) || '.jpeg';
-    if (req.file.mimetype.startsWith('image/')) ext = '.jpeg';
-    else if (req.file.mimetype.startsWith('video/')) ext = '.mp4';
-    else if (req.file.mimetype.startsWith('audio/')) ext = '.mp3';
+    let ext = '';
+
+    if (req.file.mimetype.startsWith('image/')) {
+        ext = '.jpeg';
+    } else if (req.file.mimetype.startsWith('video/')) {
+        ext = '.mp4';
+    } else if (req.file.mimetype.startsWith('audio/')) {
+        ext = '.mp3';
+    } else {
+        
+        ext = '.' + req.file.originalname.split('.').pop();
+    }
 
     const fileName = `${timestampId}${ext}`;
-    const contentBase64 = req.file.buffer.toString('base64');
 
-    try {
-        await axios.put(
-            `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/uploads/${fileName}`,
-            {
-                message: `Upload: ${fileName}`,
-                content: contentBase64,
-                branch: BRANCH
-            },
-            {
-                headers: { 'Authorization': `token ${GITHUB_TOKEN}` }
-            }
-        );
+    storageDB[fileName] = {
+        buffer: req.file.buffer,
+        mime: req.file.mimetype,
+        date: Date.now()
+    };
 
-        const fileUrl = `https://${req.get('host')}/uploads/${fileName}`;
-        res.json({ url: fileUrl });
-
-    } catch (e) {
-        console.error(e.response ? e.response.data : e.message);
-        res.status(500).json({ error: 'Error al subir a GitHub' });
-    }
+    const fileUrl = `https://${req.get('host')}/uploads/${fileName}`;
+    res.json({ url: fileUrl });
 });
 
 app.get('*', (req, res) => {
@@ -66,4 +57,6 @@ app.get('*', (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log('Server Ready'));
+app.listen(PORT, () => {
+    console.log(`✿ Servidor de Killua activo.`);
+});
