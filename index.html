@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xyzz Downloads</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+        
+        body { 
+            font-family: 'Inter', sans-serif;
+            background-color: #0b1426; 
+        }
+
+        #results::-webkit-scrollbar { display: none; }
+        #results { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        .video-item {
+            flex: 0 0 160px;
+            height: 280px;
+        }
+
+        video { object-fit: cover; }
+
+        .neon-accent { color: #5ce1b6; } 
+        .bg-card { background-color: #16243d; } 
+        .border-neon { border-color: #5ce1b6; }
+        .btn-neon { background-color: #5ce1b6; color: #0b1426; }
+        
+        .btn-click { transition: all 0.2s ease; }
+        .btn-click:active { transform: scale(0.96); }
+
+        .plat-btn i { transition: transform 0.2s; }
+        .plat-btn:hover i { transform: scale(1.1); }
+    </style>
+</head>
+<body class="text-white min-h-screen p-4 flex flex-col items-center">
+    
+    <div class="max-w-md w-full bg-card p-6 rounded-[2.5rem] shadow-2xl border border-white/5 mb-6 mt-4">
+        <h1 class="text-xl font-extrabold text-center mb-6 neon-accent italic uppercase tracking-[0.2em]">Xyzz Downloader</h1>
+        
+        <div class="grid grid-cols-4 gap-2 mb-6">
+            <button onclick="setPlat('youtube')" id="yt-btn" class="plat-btn p-3 rounded-2xl border border-neon bg-[#0b1426] flex flex-col items-center btn-click">
+                <i class="fa-brands fa-youtube text-red-500 text-lg"></i>
+            </button>
+            <button onclick="setPlat('tiktok')" id="tt-btn" class="plat-btn p-3 rounded-2xl border border-white/10 bg-[#0b1426] flex flex-col items-center btn-click">
+                <i class="fa-brands fa-tiktok text-lg text-white"></i>
+            </button>
+            <button onclick="setPlat('facebook')" id="fb-btn" class="plat-btn p-3 rounded-2xl border border-white/10 bg-[#0b1426] flex flex-col items-center btn-click">
+                <i class="fa-brands fa-facebook text-blue-500 text-lg"></i>
+            </button>
+            <button onclick="setPlat('instagram')" id="ig-btn" class="plat-btn p-3 rounded-2xl border border-white/10 bg-[#0b1426] flex flex-col items-center btn-click">
+                <i class="fa-brands fa-instagram text-pink-500 text-lg"></i>
+            </button>
+        </div>
+
+        <input type="text" id="url" placeholder="Pega el enlace aquí..." 
+            class="w-full p-3.5 rounded-2xl bg-[#0b1426] border border-white/10 text-center text-[10px] outline-none mb-4 focus:border-neon/50 transition-all">
+        
+        <button onclick="startDownload()" id="dl-btn" 
+            class="w-full btn-neon p-3.5 rounded-2xl font-black italic text-[11px] tracking-widest btn-click uppercase">
+            Obtener Video
+        </button>
+
+        <div id="player-area" class="mt-6 hidden bg-black rounded-3xl overflow-hidden border border-white/5 shadow-2xl">
+            <video id="vid" controls class="w-full aspect-video"></video>
+            <button onclick="saveFromBlob()" class="w-full bg-white/10 p-3 font-bold text-[10px] uppercase btn-click tracking-tighter">
+                Guardar en Galería
+            </button>
+        </div>
+    </div>
+
+    <div class="max-w-md w-full bg-card/40 p-5 rounded-[2.5rem] border border-white/5 mb-6">
+        <h2 class="text-[10px] font-bold mb-4 flex items-center gap-2 text-gray-400 uppercase tracking-widest italic px-1">
+            <i class="fa-brands fa-tiktok text-white"></i> TikTok Search
+        </h2>
+        
+        <div class="flex gap-2 mb-4">
+            <input type="text" id="search-q" placeholder="Eje: Killua..." 
+                class="flex-1 p-3 rounded-xl bg-[#0b1426] border border-white/10 text-[10px] outline-none focus:border-neon/30">
+            <button onclick="doSearch()" class="btn-neon px-4 rounded-xl btn-click">
+                <i class="fa-solid fa-magnifying-glass text-xs"></i>
+            </button>
+        </div>
+
+        <div id="results" class="flex gap-3 overflow-x-auto pb-2 scroll-smooth">
+            </div>
+    </div>
+
+    <div class="max-w-md w-full px-2">
+        <div class="bg-card/20 p-5 rounded-[2rem] border border-white/5 text-center mb-6">
+            <h3 class="text-[9px] font-bold neon-accent uppercase tracking-widest mb-2">Información</h3>
+            <p class="text-gray-400 text-[10px] leading-relaxed italic">
+                Si la descarga no inicia, <span class="text-white font-bold">intenta 2 o 3 veces</span>. Los servidores pueden tardar en procesar el video.
+            </p>
+        </div>
+        
+        <div class="text-center py-4">
+            <p class="text-[9px] text-gray-500 font-bold tracking-[0.4em] uppercase">
+                All <a href="https://github.com/the-xyzz" target="_blank" class="text-white hover:neon-accent transition-colors duration-300">the-xyzz</a> | downloads
+            </p>
+            <p class="text-[8px] text-gray-700 mt-2 font-bold uppercase tracking-widest">Xyzz Master © 2026</p>
+        </div>
+    </div>
+
+    <script>
+        let currentPlat = 'youtube';
+
+        function setPlat(p) {
+            currentPlat = p;
+            document.querySelectorAll('.plat-btn').forEach(b => {
+                b.classList.remove('border-neon', 'bg-neon/10');
+                b.classList.add('border-white/10');
+            });
+            const active = document.getElementById(`${p === 'youtube' ? 'yt' : p === 'tiktok' ? 'tt' : p === 'facebook' ? 'fb' : 'ig'}-btn`);
+            active.classList.replace('border-white/10', 'border-neon');
+            active.classList.add('bg-neon/10');
+        }
+
+        async function startDownload(customUrl) {
+            const url = customUrl || document.getElementById('url').value;
+            if (!url) return;
+            const btn = document.getElementById('dl-btn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = "<i class='fa-solid fa-spinner animate-spin'></i>";
+            
+            try {
+                const res = await fetch('/api/download', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ url, platform: customUrl ? 'tiktok' : currentPlat })
+                });
+                const d = await res.json();
+                if (d.downloadUrl) {
+                    document.getElementById('vid').src = d.downloadUrl;
+                    document.getElementById('player-area').classList.remove('hidden');
+                    window.scrollTo({top: 0, behavior: 'smooth'});
+                }
+            } catch (e) { console.error(e); }
+            btn.innerHTML = originalText;
+        }
+
+        async function doSearch() {
+            const q = document.getElementById('search-q').value;
+            const grid = document.getElementById('results');
+            if (!q) return;
+            grid.innerHTML = '<div class="text-[10px] text-gray-600 p-4 tracking-tighter uppercase">Buscando...</div>';
+            
+            try {
+                const r = await fetch(`/api/search?q=${q}`);
+                const data = await r.json();
+                grid.innerHTML = '';
+                data.forEach(v => {
+                    const videoUrl = v.media.no_watermark;
+                    grid.innerHTML += `
+                        <div class="video-item bg-black rounded-[2rem] overflow-hidden border border-white/5 flex-shrink-0 flex flex-col relative group">
+                            <video class="w-full h-full" controls preload="none" poster="${v.cover}">
+                                <source src="${videoUrl}" type="video/mp4">
+                            </video>
+                            <div class="absolute bottom-2 left-2 right-2">
+                                 <a href="/api/proxy?url=${encodeURIComponent(videoUrl)}" 
+                                    class="btn-neon text-[8px] py-1.5 rounded-xl font-black text-center block uppercase shadow-2xl btn-click">
+                                    Descargar
+                                 </a>
+                            </div>
+                        </div>`;
+                });
+            } catch (e) { 
+                grid.innerHTML = '<div class="text-[10px] text-red-900 p-4 uppercase italic">Error al buscar</div>';
+            }
+        }
+
+        function saveFromBlob() {
+            const videoSrc = document.getElementById('vid').src;
+            if (!videoSrc) return;
+            const a = document.createElement('a');
+            a.href = `/api/proxy?url=${encodeURIComponent(videoSrc)}`;
+            a.download = "video_xyzz.mp4";
+            a.click();
+        }
+    </script>
+</body>
+  </html>
