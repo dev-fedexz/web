@@ -98,26 +98,15 @@
         <div id="results" class="flex gap-3 overflow-x-auto pb-2 scroll-smooth"></div>
     </div>
 
-    <div class="max-w-md w-full px-2">
-        <div class="flex gap-2 mb-4">
-            <div class="flex-1 bg-card/40 p-4 rounded-2xl border border-white/5">
-                <i class="fa-solid fa-shield-halved neon-accent mb-1 text-sm"></i>
-                <p class="text-[8px] font-bold uppercase tracking-tighter">Secure</p>
-            </div>
-            <div class="flex-1 bg-card/40 p-4 rounded-2xl border border-white/5">
-                <i class="fa-solid fa-bolt neon-accent mb-1 text-sm"></i>
-                <p class="text-[8px] font-bold uppercase tracking-tighter">Fast</p>
-            </div>
-        </div>
-
-        <div class="bg-card/20 p-5 rounded-[2rem] border border-white/5 text-center mb-6">
+    <div class="max-w-md w-full px-2 text-center">
+        <div class="bg-card/20 p-5 rounded-[2rem] border border-white/5 mb-6">
             <h3 class="text-[9px] font-bold neon-accent uppercase tracking-widest mb-2">Información</h3>
             <p class="text-gray-400 text-[10px] leading-relaxed italic">
-                Si la descarga no inicia, <span class="text-white font-bold">intenta 2 o 3 veces</span>.
+                Si la descarga no inicia, <span class="text-white font-bold">intenta 2 o 3 veces</span>. Los servidores externos pueden tardar en procesar.
             </p>
         </div>
         
-        <div class="text-center py-4">
+        <div class="py-4">
             <p class="text-[9px] text-gray-500 font-bold tracking-[0.4em] uppercase">
                 All <a href="https://github.com/the-xyzz" target="_blank" class="text-white hover:neon-accent transition-colors duration-300">the-xyzz</a> | downloads
             </p>
@@ -175,13 +164,13 @@
                 data.forEach(v => {
                     const videoUrl = v.media.no_watermark;
                     grid.innerHTML += `
-                        <div class="video-item bg-black rounded-[2rem] overflow-hidden border border-white/5 flex-shrink-0 flex flex-col relative group">
+                        <div class="video-item bg-black rounded-[2rem] overflow-hidden border border-white/5 flex-shrink-0 flex flex-col relative group shadow-lg">
                             <video class="w-full h-full" controls preload="none" poster="${v.cover}">
                                 <source src="${videoUrl}" type="video/mp4">
                             </video>
                             <div class="absolute bottom-2 left-2 right-2">
                                  <a href="/api/proxy?url=${encodeURIComponent(videoUrl)}" 
-                                    class="btn-neon text-[8px] py-1.5 rounded-xl font-black text-center block uppercase shadow-2xl btn-click">
+                                    class="btn-neon text-[8px] py-2 rounded-xl font-black text-center block uppercase shadow-2xl btn-click">
                                     Descargar
                                  </a>
                             </div>
