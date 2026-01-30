@@ -37,9 +37,19 @@
     </style>
 </head>
 <body class="text-white min-h-screen p-4 flex flex-col items-center">
+
+    <div class="flex flex-col items-center mb-6 mt-4">
+        <div class="bg-card p-3 rounded-2xl border border-white/5 mb-2 shadow-lg">
+            <i class="fa-solid fa-cloud-arrow-down text-4xl neon-accent"></i>
+        </div>
+        <p class="text-[10px] font-bold text-gray-500 uppercase tracking-[0.3em]">Premium Downloader</p>
+    </div>
     
-    <div class="max-w-md w-full bg-card p-6 rounded-[2.5rem] shadow-2xl border border-white/5 mb-6 mt-4">
-        <h1 class="text-xl font-extrabold text-center mb-6 neon-accent italic uppercase tracking-[0.2em]">Xyzz Downloader</h1>
+    <div class="max-w-md w-full bg-card p-6 rounded-[2.5rem] shadow-2xl border border-white/5 mb-6">
+        <div class="flex flex-col items-center mb-6">
+            <i class="fa-solid fa-download text-xl neon-accent mb-2"></i>
+            <h1 class="text-xl font-extrabold text-center neon-accent italic uppercase tracking-[0.2em]">Xyzz Downloader</h1>
+        </div>
         
         <div class="grid grid-cols-4 gap-2 mb-6">
             <button onclick="setPlat('youtube')" id="yt-btn" class="plat-btn p-3 rounded-2xl border border-neon bg-[#0b1426] flex flex-col items-center btn-click">
@@ -60,14 +70,14 @@
             class="w-full p-3.5 rounded-2xl bg-[#0b1426] border border-white/10 text-center text-[10px] outline-none mb-4 focus:border-neon/50 transition-all">
         
         <button onclick="startDownload()" id="dl-btn" 
-            class="w-full btn-neon p-3.5 rounded-2xl font-black italic text-[11px] tracking-widest btn-click uppercase">
-            Obtener Video
+            class="w-full btn-neon p-3.5 rounded-2xl font-black italic text-[11px] tracking-widest btn-click uppercase flex items-center justify-center gap-2">
+            <i class="fa-solid fa-cloud"></i> Obtener Video
         </button>
 
         <div id="player-area" class="mt-6 hidden bg-black rounded-3xl overflow-hidden border border-white/5 shadow-2xl">
             <video id="vid" controls class="w-full aspect-video"></video>
             <button onclick="saveFromBlob()" class="w-full bg-white/10 p-3 font-bold text-[10px] uppercase btn-click tracking-tighter">
-                Guardar en Galería
+                <i class="fa-solid fa-download mr-1"></i> Guardar en Galería
             </button>
         </div>
     </div>
@@ -85,15 +95,25 @@
             </button>
         </div>
 
-        <div id="results" class="flex gap-3 overflow-x-auto pb-2 scroll-smooth">
-            </div>
+        <div id="results" class="flex gap-3 overflow-x-auto pb-2 scroll-smooth"></div>
     </div>
 
     <div class="max-w-md w-full px-2">
+        <div class="flex gap-2 mb-4">
+            <div class="flex-1 bg-card/40 p-4 rounded-2xl border border-white/5">
+                <i class="fa-solid fa-shield-halved neon-accent mb-1 text-sm"></i>
+                <p class="text-[8px] font-bold uppercase tracking-tighter">Secure</p>
+            </div>
+            <div class="flex-1 bg-card/40 p-4 rounded-2xl border border-white/5">
+                <i class="fa-solid fa-bolt neon-accent mb-1 text-sm"></i>
+                <p class="text-[8px] font-bold uppercase tracking-tighter">Fast</p>
+            </div>
+        </div>
+
         <div class="bg-card/20 p-5 rounded-[2rem] border border-white/5 text-center mb-6">
             <h3 class="text-[9px] font-bold neon-accent uppercase tracking-widest mb-2">Información</h3>
             <p class="text-gray-400 text-[10px] leading-relaxed italic">
-                Si la descarga no inicia, <span class="text-white font-bold">intenta 2 o 3 veces</span>. Los servidores pueden tardar en procesar el video.
+                Si la descarga no inicia, <span class="text-white font-bold">intenta 2 o 3 veces</span>.
             </p>
         </div>
         
@@ -182,4 +202,4 @@
         }
     </script>
 </body>
-  </html>
+</html>
